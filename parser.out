@@ -1,0 +1,1553 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    BOOLEAN
+    CASE
+    CLASS
+    COMMA
+    DOT
+    ELIF
+    ELSE
+    EQ
+    FALSE
+    FN
+    FOR
+    FSTRING
+    GE
+    GT
+    IF
+    LBRACE
+    LBRACKET
+    LE
+    LT
+    MODULO
+    NE
+    NOT
+    NULL
+    OR
+    RBRACE
+    RBRACKET
+    SEMI
+    STRING
+    SWITCH
+    TERNARY_C
+    TERNARY_Q
+    TRUE
+    WHILE
+
+Grammar
+
+Rule 0     S' -> var_assign
+Rule 1     var_assign -> var ASSIGN expr
+Rule 2     var_assign -> var PLUS_ASSIGN expr
+Rule 3     var_assign -> var MINUS_ASSIGN expr
+Rule 4     var_assign -> var TIMES_ASSIGN expr
+Rule 5     var_assign -> var DIVIDE_ASSIGN expr
+Rule 6     var_assign -> var POWER_ASSIGN expr
+Rule 7     var_assign -> var MODULO_ASSIGN expr
+Rule 8     var_assign -> var INT_DIVIDE_ASSIGN expr
+Rule 9     var_assign -> final_var ASSIGN expr
+Rule 10    var_assign -> final_var PLUS_ASSIGN expr
+Rule 11    var_assign -> final_var MINUS_ASSIGN expr
+Rule 12    var_assign -> final_var TIMES_ASSIGN expr
+Rule 13    var_assign -> final_var DIVIDE_ASSIGN expr
+Rule 14    var_assign -> final_var POWER_ASSIGN expr
+Rule 15    var_assign -> final_var MODULO_ASSIGN expr
+Rule 16    var_assign -> final_var INT_DIVIDE_ASSIGN expr
+Rule 17    var -> ID
+Rule 18    final_var -> FINAL ID
+Rule 19    expr -> expr PLUS expr
+Rule 20    expr -> expr MINUS expr
+Rule 21    expr -> expr TIMES expr
+Rule 22    expr -> expr DIVIDE expr
+Rule 23    expr -> expr INT_DIVIDE expr
+Rule 24    expr -> expr POWER expr
+Rule 25    expr -> factor
+Rule 26    factor -> PLUS factor
+Rule 27    factor -> MINUS factor
+Rule 28    factor -> INTEGER
+Rule 29    factor -> FLOAT
+Rule 30    factor -> LPAREN expr RPAREN
+Rule 31    factor -> var
+
+Terminals, with rules where they appear
+
+AND                  : 
+ASSIGN               : 1 9
+BOOLEAN              : 
+CASE                 : 
+CLASS                : 
+COMMA                : 
+DIVIDE               : 22
+DIVIDE_ASSIGN        : 5 13
+DOT                  : 
+ELIF                 : 
+ELSE                 : 
+EQ                   : 
+FALSE                : 
+FINAL                : 18
+FLOAT                : 29
+FN                   : 
+FOR                  : 
+FSTRING              : 
+GE                   : 
+GT                   : 
+ID                   : 17 18
+IF                   : 
+INTEGER              : 28
+INT_DIVIDE           : 23
+INT_DIVIDE_ASSIGN    : 8 16
+LBRACE               : 
+LBRACKET             : 
+LE                   : 
+LPAREN               : 30
+LT                   : 
+MINUS                : 20 27
+MINUS_ASSIGN         : 3 11
+MODULO               : 
+MODULO_ASSIGN        : 7 15
+NE                   : 
+NOT                  : 
+NULL                 : 
+OR                   : 
+PLUS                 : 19 26
+PLUS_ASSIGN          : 2 10
+POWER                : 24
+POWER_ASSIGN         : 6 14
+RBRACE               : 
+RBRACKET             : 
+RPAREN               : 30
+SEMI                 : 
+STRING               : 
+SWITCH               : 
+TERNARY_C            : 
+TERNARY_Q            : 
+TIMES                : 21
+TIMES_ASSIGN         : 4 12
+TRUE                 : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+expr                 : 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 19 19 20 20 21 21 22 22 23 23 24 24 30
+factor               : 25 26 27
+final_var            : 9 10 11 12 13 14 15 16
+var                  : 1 2 3 4 5 6 7 8 31
+var_assign           : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . var_assign
+    (1) var_assign -> . var ASSIGN expr
+    (2) var_assign -> . var PLUS_ASSIGN expr
+    (3) var_assign -> . var MINUS_ASSIGN expr
+    (4) var_assign -> . var TIMES_ASSIGN expr
+    (5) var_assign -> . var DIVIDE_ASSIGN expr
+    (6) var_assign -> . var POWER_ASSIGN expr
+    (7) var_assign -> . var MODULO_ASSIGN expr
+    (8) var_assign -> . var INT_DIVIDE_ASSIGN expr
+    (9) var_assign -> . final_var ASSIGN expr
+    (10) var_assign -> . final_var PLUS_ASSIGN expr
+    (11) var_assign -> . final_var MINUS_ASSIGN expr
+    (12) var_assign -> . final_var TIMES_ASSIGN expr
+    (13) var_assign -> . final_var DIVIDE_ASSIGN expr
+    (14) var_assign -> . final_var POWER_ASSIGN expr
+    (15) var_assign -> . final_var MODULO_ASSIGN expr
+    (16) var_assign -> . final_var INT_DIVIDE_ASSIGN expr
+    (17) var -> . ID
+    (18) final_var -> . FINAL ID
+
+    ID              shift and go to state 4
+    FINAL           shift and go to state 5
+
+    var_assign                     shift and go to state 1
+    var                            shift and go to state 2
+    final_var                      shift and go to state 3
+
+state 1
+
+    (0) S' -> var_assign .
+
+
+
+state 2
+
+    (1) var_assign -> var . ASSIGN expr
+    (2) var_assign -> var . PLUS_ASSIGN expr
+    (3) var_assign -> var . MINUS_ASSIGN expr
+    (4) var_assign -> var . TIMES_ASSIGN expr
+    (5) var_assign -> var . DIVIDE_ASSIGN expr
+    (6) var_assign -> var . POWER_ASSIGN expr
+    (7) var_assign -> var . MODULO_ASSIGN expr
+    (8) var_assign -> var . INT_DIVIDE_ASSIGN expr
+
+    ASSIGN          shift and go to state 6
+    PLUS_ASSIGN     shift and go to state 7
+    MINUS_ASSIGN    shift and go to state 8
+    TIMES_ASSIGN    shift and go to state 9
+    DIVIDE_ASSIGN   shift and go to state 10
+    POWER_ASSIGN    shift and go to state 11
+    MODULO_ASSIGN   shift and go to state 12
+    INT_DIVIDE_ASSIGN shift and go to state 13
+
+
+state 3
+
+    (9) var_assign -> final_var . ASSIGN expr
+    (10) var_assign -> final_var . PLUS_ASSIGN expr
+    (11) var_assign -> final_var . MINUS_ASSIGN expr
+    (12) var_assign -> final_var . TIMES_ASSIGN expr
+    (13) var_assign -> final_var . DIVIDE_ASSIGN expr
+    (14) var_assign -> final_var . POWER_ASSIGN expr
+    (15) var_assign -> final_var . MODULO_ASSIGN expr
+    (16) var_assign -> final_var . INT_DIVIDE_ASSIGN expr
+
+    ASSIGN          shift and go to state 14
+    PLUS_ASSIGN     shift and go to state 15
+    MINUS_ASSIGN    shift and go to state 16
+    TIMES_ASSIGN    shift and go to state 17
+    DIVIDE_ASSIGN   shift and go to state 18
+    POWER_ASSIGN    shift and go to state 19
+    MODULO_ASSIGN   shift and go to state 20
+    INT_DIVIDE_ASSIGN shift and go to state 21
+
+
+state 4
+
+    (17) var -> ID .
+
+    ASSIGN          reduce using rule 17 (var -> ID .)
+    PLUS_ASSIGN     reduce using rule 17 (var -> ID .)
+    MINUS_ASSIGN    reduce using rule 17 (var -> ID .)
+    TIMES_ASSIGN    reduce using rule 17 (var -> ID .)
+    DIVIDE_ASSIGN   reduce using rule 17 (var -> ID .)
+    POWER_ASSIGN    reduce using rule 17 (var -> ID .)
+    MODULO_ASSIGN   reduce using rule 17 (var -> ID .)
+    INT_DIVIDE_ASSIGN reduce using rule 17 (var -> ID .)
+    PLUS            reduce using rule 17 (var -> ID .)
+    MINUS           reduce using rule 17 (var -> ID .)
+    TIMES           reduce using rule 17 (var -> ID .)
+    DIVIDE          reduce using rule 17 (var -> ID .)
+    INT_DIVIDE      reduce using rule 17 (var -> ID .)
+    POWER           reduce using rule 17 (var -> ID .)
+    $end            reduce using rule 17 (var -> ID .)
+    RPAREN          reduce using rule 17 (var -> ID .)
+
+
+state 5
+
+    (18) final_var -> FINAL . ID
+
+    ID              shift and go to state 22
+
+
+state 6
+
+    (1) var_assign -> var ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 24
+    factor                         shift and go to state 27
+
+state 7
+
+    (2) var_assign -> var PLUS_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 31
+    factor                         shift and go to state 27
+
+state 8
+
+    (3) var_assign -> var MINUS_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 32
+    factor                         shift and go to state 27
+
+state 9
+
+    (4) var_assign -> var TIMES_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 33
+    factor                         shift and go to state 27
+
+state 10
+
+    (5) var_assign -> var DIVIDE_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 34
+    factor                         shift and go to state 27
+
+state 11
+
+    (6) var_assign -> var POWER_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 35
+    factor                         shift and go to state 27
+
+state 12
+
+    (7) var_assign -> var MODULO_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 36
+    factor                         shift and go to state 27
+
+state 13
+
+    (8) var_assign -> var INT_DIVIDE_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    var                            shift and go to state 23
+    expr                           shift and go to state 37
+    factor                         shift and go to state 27
+
+state 14
+
+    (9) var_assign -> final_var ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 38
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 15
+
+    (10) var_assign -> final_var PLUS_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 39
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 16
+
+    (11) var_assign -> final_var MINUS_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 40
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 17
+
+    (12) var_assign -> final_var TIMES_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 41
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 18
+
+    (13) var_assign -> final_var DIVIDE_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 42
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 19
+
+    (14) var_assign -> final_var POWER_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 43
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 20
+
+    (15) var_assign -> final_var MODULO_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 44
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 21
+
+    (16) var_assign -> final_var INT_DIVIDE_ASSIGN . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 45
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 22
+
+    (18) final_var -> FINAL ID .
+
+    ASSIGN          reduce using rule 18 (final_var -> FINAL ID .)
+    PLUS_ASSIGN     reduce using rule 18 (final_var -> FINAL ID .)
+    MINUS_ASSIGN    reduce using rule 18 (final_var -> FINAL ID .)
+    TIMES_ASSIGN    reduce using rule 18 (final_var -> FINAL ID .)
+    DIVIDE_ASSIGN   reduce using rule 18 (final_var -> FINAL ID .)
+    POWER_ASSIGN    reduce using rule 18 (final_var -> FINAL ID .)
+    MODULO_ASSIGN   reduce using rule 18 (final_var -> FINAL ID .)
+    INT_DIVIDE_ASSIGN reduce using rule 18 (final_var -> FINAL ID .)
+
+
+state 23
+
+    (31) factor -> var .
+
+    PLUS            reduce using rule 31 (factor -> var .)
+    MINUS           reduce using rule 31 (factor -> var .)
+    TIMES           reduce using rule 31 (factor -> var .)
+    DIVIDE          reduce using rule 31 (factor -> var .)
+    INT_DIVIDE      reduce using rule 31 (factor -> var .)
+    POWER           reduce using rule 31 (factor -> var .)
+    $end            reduce using rule 31 (factor -> var .)
+    RPAREN          reduce using rule 31 (factor -> var .)
+
+
+state 24
+
+    (1) var_assign -> var ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 1 (var_assign -> var ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 25
+
+    (26) factor -> PLUS . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    factor                         shift and go to state 52
+    var                            shift and go to state 23
+
+state 26
+
+    (27) factor -> MINUS . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    factor                         shift and go to state 53
+    var                            shift and go to state 23
+
+state 27
+
+    (25) expr -> factor .
+
+    PLUS            reduce using rule 25 (expr -> factor .)
+    MINUS           reduce using rule 25 (expr -> factor .)
+    TIMES           reduce using rule 25 (expr -> factor .)
+    DIVIDE          reduce using rule 25 (expr -> factor .)
+    INT_DIVIDE      reduce using rule 25 (expr -> factor .)
+    POWER           reduce using rule 25 (expr -> factor .)
+    $end            reduce using rule 25 (expr -> factor .)
+    RPAREN          reduce using rule 25 (expr -> factor .)
+
+
+state 28
+
+    (28) factor -> INTEGER .
+
+    PLUS            reduce using rule 28 (factor -> INTEGER .)
+    MINUS           reduce using rule 28 (factor -> INTEGER .)
+    TIMES           reduce using rule 28 (factor -> INTEGER .)
+    DIVIDE          reduce using rule 28 (factor -> INTEGER .)
+    INT_DIVIDE      reduce using rule 28 (factor -> INTEGER .)
+    POWER           reduce using rule 28 (factor -> INTEGER .)
+    $end            reduce using rule 28 (factor -> INTEGER .)
+    RPAREN          reduce using rule 28 (factor -> INTEGER .)
+
+
+state 29
+
+    (29) factor -> FLOAT .
+
+    PLUS            reduce using rule 29 (factor -> FLOAT .)
+    MINUS           reduce using rule 29 (factor -> FLOAT .)
+    TIMES           reduce using rule 29 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 29 (factor -> FLOAT .)
+    INT_DIVIDE      reduce using rule 29 (factor -> FLOAT .)
+    POWER           reduce using rule 29 (factor -> FLOAT .)
+    $end            reduce using rule 29 (factor -> FLOAT .)
+    RPAREN          reduce using rule 29 (factor -> FLOAT .)
+
+
+state 30
+
+    (30) factor -> LPAREN . expr RPAREN
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 54
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 31
+
+    (2) var_assign -> var PLUS_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 2 (var_assign -> var PLUS_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 32
+
+    (3) var_assign -> var MINUS_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 3 (var_assign -> var MINUS_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 33
+
+    (4) var_assign -> var TIMES_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 4 (var_assign -> var TIMES_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 34
+
+    (5) var_assign -> var DIVIDE_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 5 (var_assign -> var DIVIDE_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 35
+
+    (6) var_assign -> var POWER_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 6 (var_assign -> var POWER_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 36
+
+    (7) var_assign -> var MODULO_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 7 (var_assign -> var MODULO_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 37
+
+    (8) var_assign -> var INT_DIVIDE_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 8 (var_assign -> var INT_DIVIDE_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 38
+
+    (9) var_assign -> final_var ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 9 (var_assign -> final_var ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 39
+
+    (10) var_assign -> final_var PLUS_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 10 (var_assign -> final_var PLUS_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 40
+
+    (11) var_assign -> final_var MINUS_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 11 (var_assign -> final_var MINUS_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 41
+
+    (12) var_assign -> final_var TIMES_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 12 (var_assign -> final_var TIMES_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 42
+
+    (13) var_assign -> final_var DIVIDE_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 13 (var_assign -> final_var DIVIDE_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 43
+
+    (14) var_assign -> final_var POWER_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 14 (var_assign -> final_var POWER_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 44
+
+    (15) var_assign -> final_var MODULO_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 15 (var_assign -> final_var MODULO_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 45
+
+    (16) var_assign -> final_var INT_DIVIDE_ASSIGN expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    $end            reduce using rule 16 (var_assign -> final_var INT_DIVIDE_ASSIGN expr .)
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 46
+
+    (19) expr -> expr PLUS . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 55
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 47
+
+    (20) expr -> expr MINUS . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 56
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 48
+
+    (21) expr -> expr TIMES . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 57
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 49
+
+    (22) expr -> expr DIVIDE . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 58
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 50
+
+    (23) expr -> expr INT_DIVIDE . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 59
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 51
+
+    (24) expr -> expr POWER . expr
+    (19) expr -> . expr PLUS expr
+    (20) expr -> . expr MINUS expr
+    (21) expr -> . expr TIMES expr
+    (22) expr -> . expr DIVIDE expr
+    (23) expr -> . expr INT_DIVIDE expr
+    (24) expr -> . expr POWER expr
+    (25) expr -> . factor
+    (26) factor -> . PLUS factor
+    (27) factor -> . MINUS factor
+    (28) factor -> . INTEGER
+    (29) factor -> . FLOAT
+    (30) factor -> . LPAREN expr RPAREN
+    (31) factor -> . var
+    (17) var -> . ID
+
+    PLUS            shift and go to state 25
+    MINUS           shift and go to state 26
+    INTEGER         shift and go to state 28
+    FLOAT           shift and go to state 29
+    LPAREN          shift and go to state 30
+    ID              shift and go to state 4
+
+    expr                           shift and go to state 60
+    factor                         shift and go to state 27
+    var                            shift and go to state 23
+
+state 52
+
+    (26) factor -> PLUS factor .
+
+    PLUS            reduce using rule 26 (factor -> PLUS factor .)
+    MINUS           reduce using rule 26 (factor -> PLUS factor .)
+    TIMES           reduce using rule 26 (factor -> PLUS factor .)
+    DIVIDE          reduce using rule 26 (factor -> PLUS factor .)
+    INT_DIVIDE      reduce using rule 26 (factor -> PLUS factor .)
+    POWER           reduce using rule 26 (factor -> PLUS factor .)
+    $end            reduce using rule 26 (factor -> PLUS factor .)
+    RPAREN          reduce using rule 26 (factor -> PLUS factor .)
+
+
+state 53
+
+    (27) factor -> MINUS factor .
+
+    PLUS            reduce using rule 27 (factor -> MINUS factor .)
+    MINUS           reduce using rule 27 (factor -> MINUS factor .)
+    TIMES           reduce using rule 27 (factor -> MINUS factor .)
+    DIVIDE          reduce using rule 27 (factor -> MINUS factor .)
+    INT_DIVIDE      reduce using rule 27 (factor -> MINUS factor .)
+    POWER           reduce using rule 27 (factor -> MINUS factor .)
+    $end            reduce using rule 27 (factor -> MINUS factor .)
+    RPAREN          reduce using rule 27 (factor -> MINUS factor .)
+
+
+state 54
+
+    (30) factor -> LPAREN expr . RPAREN
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    RPAREN          shift and go to state 61
+    PLUS            shift and go to state 46
+    MINUS           shift and go to state 47
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+
+state 55
+
+    (19) expr -> expr PLUS expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 19 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 19 (expr -> expr PLUS expr .)
+    $end            reduce using rule 19 (expr -> expr PLUS expr .)
+    RPAREN          reduce using rule 19 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+  ! TIMES           [ reduce using rule 19 (expr -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 19 (expr -> expr PLUS expr .) ]
+  ! INT_DIVIDE      [ reduce using rule 19 (expr -> expr PLUS expr .) ]
+  ! POWER           [ reduce using rule 19 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+
+
+state 56
+
+    (20) expr -> expr MINUS expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 20 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 20 (expr -> expr MINUS expr .)
+    $end            reduce using rule 20 (expr -> expr MINUS expr .)
+    RPAREN          reduce using rule 20 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 48
+    DIVIDE          shift and go to state 49
+    INT_DIVIDE      shift and go to state 50
+    POWER           shift and go to state 51
+
+  ! TIMES           [ reduce using rule 20 (expr -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 20 (expr -> expr MINUS expr .) ]
+  ! INT_DIVIDE      [ reduce using rule 20 (expr -> expr MINUS expr .) ]
+  ! POWER           [ reduce using rule 20 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+
+
+state 57
+
+    (21) expr -> expr TIMES expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 21 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 21 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 21 (expr -> expr TIMES expr .)
+    DIVIDE          reduce using rule 21 (expr -> expr TIMES expr .)
+    INT_DIVIDE      reduce using rule 21 (expr -> expr TIMES expr .)
+    $end            reduce using rule 21 (expr -> expr TIMES expr .)
+    RPAREN          reduce using rule 21 (expr -> expr TIMES expr .)
+    POWER           shift and go to state 51
+
+  ! POWER           [ reduce using rule 21 (expr -> expr TIMES expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+  ! TIMES           [ shift and go to state 48 ]
+  ! DIVIDE          [ shift and go to state 49 ]
+  ! INT_DIVIDE      [ shift and go to state 50 ]
+
+
+state 58
+
+    (22) expr -> expr DIVIDE expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 22 (expr -> expr DIVIDE expr .)
+    MINUS           reduce using rule 22 (expr -> expr DIVIDE expr .)
+    TIMES           reduce using rule 22 (expr -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 22 (expr -> expr DIVIDE expr .)
+    INT_DIVIDE      reduce using rule 22 (expr -> expr DIVIDE expr .)
+    $end            reduce using rule 22 (expr -> expr DIVIDE expr .)
+    RPAREN          reduce using rule 22 (expr -> expr DIVIDE expr .)
+    POWER           shift and go to state 51
+
+  ! POWER           [ reduce using rule 22 (expr -> expr DIVIDE expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+  ! TIMES           [ shift and go to state 48 ]
+  ! DIVIDE          [ shift and go to state 49 ]
+  ! INT_DIVIDE      [ shift and go to state 50 ]
+
+
+state 59
+
+    (23) expr -> expr INT_DIVIDE expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    MINUS           reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    TIMES           reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    DIVIDE          reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    INT_DIVIDE      reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    $end            reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    RPAREN          reduce using rule 23 (expr -> expr INT_DIVIDE expr .)
+    POWER           shift and go to state 51
+
+  ! POWER           [ reduce using rule 23 (expr -> expr INT_DIVIDE expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+  ! TIMES           [ shift and go to state 48 ]
+  ! DIVIDE          [ shift and go to state 49 ]
+  ! INT_DIVIDE      [ shift and go to state 50 ]
+
+
+state 60
+
+    (24) expr -> expr POWER expr .
+    (19) expr -> expr . PLUS expr
+    (20) expr -> expr . MINUS expr
+    (21) expr -> expr . TIMES expr
+    (22) expr -> expr . DIVIDE expr
+    (23) expr -> expr . INT_DIVIDE expr
+    (24) expr -> expr . POWER expr
+
+    PLUS            reduce using rule 24 (expr -> expr POWER expr .)
+    MINUS           reduce using rule 24 (expr -> expr POWER expr .)
+    TIMES           reduce using rule 24 (expr -> expr POWER expr .)
+    DIVIDE          reduce using rule 24 (expr -> expr POWER expr .)
+    INT_DIVIDE      reduce using rule 24 (expr -> expr POWER expr .)
+    $end            reduce using rule 24 (expr -> expr POWER expr .)
+    RPAREN          reduce using rule 24 (expr -> expr POWER expr .)
+    POWER           shift and go to state 51
+
+  ! POWER           [ reduce using rule 24 (expr -> expr POWER expr .) ]
+  ! PLUS            [ shift and go to state 46 ]
+  ! MINUS           [ shift and go to state 47 ]
+  ! TIMES           [ shift and go to state 48 ]
+  ! DIVIDE          [ shift and go to state 49 ]
+  ! INT_DIVIDE      [ shift and go to state 50 ]
+
+
+state 61
+
+    (30) factor -> LPAREN expr RPAREN .
+
+    PLUS            reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    MINUS           reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    TIMES           reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    DIVIDE          reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    INT_DIVIDE      reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    POWER           reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    $end            reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+    RPAREN          reduce using rule 30 (factor -> LPAREN expr RPAREN .)
+
