@@ -1,9 +1,8 @@
 import ply.yacc as yacc
-from lexer import CeylonLexer
-from AST import (ScopedBlock, Block, If, While, ExprNode, BinBooleanOp,
+from AST import (ScopedBlock, Block, If, For, While, ExprNode, BinBooleanOp,
                  Null, Boolean, BinComp, UnaryBoolean, String, Num, BinOp, Unary,
                  Var, VarCompoundAssign, VarAssign, FinalAssign, VarAuto, Ternary,
-                 Parameter, Argument, FunctionStmt, FunctionCall, NoOp)
+                 Parameter, Argument, FunctionStmt, FunctionCall, NoOp, Return)
 from TokenType import TokenType, Token
 
 class Parser():
@@ -19,7 +18,7 @@ class Parser():
         self.tokens = lexer.tokens
 
     ####
-    #### SCOPE BLOCK RULES
+    #### BLOCK RULES
     ####
 
     def p_block(self, p):
@@ -29,19 +28,6 @@ class Parser():
         statement_list = p[1]
 
         p[0] = Block(block_name=block_name, statement_list=statement_list)
-
-    def p_scoped_block(self, p):
-        '''scoped_block : statement_list
-                       | empty'''
-        block_name = "ScopedBlock"
-        p[1].reverse()
-        statement_list = p[1]
-
-        p[0] = ScopedBlock(block_name=block_name, statement_list=statement_list)
-
-    ####
-    #### BLOCK RULES
-    ####
 
     def p_statement_list(self, p):
         '''statement_list : statement statement_list
@@ -64,8 +50,53 @@ class Parser():
                      | func_call
                      | if_stmt
                      | while_stmt
+                     | for_stmt
                      | empty'''
         p[0] = p[1] # None or AST NODE
+
+    ####
+    #### SCOPE BLOCK RULES
+    ####
+
+    def p_scoped_block(self, p):
+        '''scoped_block : scope_statement_list'''
+        block_name = "ScopedBlock"
+        p[1].reverse()
+        statement_list = p[1]
+
+        p[0] = ScopedBlock(block_name=block_name, statement_list=statement_list)
+
+    def p_scope_statement_list(self, p):
+        '''scope_statement_list : scope_statement scope_statement_list
+                          | empty'''
+
+        len_rule = len(p)
+        if len_rule == 3:
+            p[0] = p[2] + [p[1]] # statement list: [AST nodes, NoOp]
+        else:
+            p[0] = [p[1]] # [NoOp]
+
+    def p_scope_statement(self, p):
+        '''scope_statement : var_assign SEMI
+                     | final_assign SEMI
+                     | var_compound_assign SEMI
+                     | var_auto SEMI
+                     | expr SEMI
+                     | func_stmt
+                     | func_call
+                     | if_stmt
+                     | while_stmt
+                     | for_stmt
+                     | return SEMI
+                     | empty'''
+        p[0] = p[1] # None or AST NODE
+
+    def p_return(self, p):
+        '''return : RETURN expr
+                  | RETURN empty'''
+
+        node = p[2]
+        p[0] = Return(child=node)
 
     ####
     #### FUNCTION RULES
@@ -107,7 +138,7 @@ class Parser():
         p[0] = p[1] # None or Parameter
 
     def p_non_empty_parameters_list(self, p):
-        '''non_empty_parameters_list : var COMMA parameters_list
+        '''non_empty_parameters_list : var COMMA non_empty_parameters_list
                                      | var'''
         len_rule = len(p)
 
@@ -167,8 +198,12 @@ class Parser():
         p[0] = While(condition=condition, child=child)
 
     def p_for_stmt(self, p):
-        '''for_stmt : FOR LPAREN var_assign SEMI boolean_expr SEMI var_auto RPAREN LBRACE scoped_block RBRACE'''
-        pass
+        '''for_stmt : FOR LPAREN var_assign SEMI boolean_expr SEMI var_auto RPAREN LBRACE block RBRACE'''
+        init_var : VarAssign = p[3]
+        condition : BinBooleanOp = p[5]
+        auto : VarAuto = p[7]
+        block_node = p[10]
+        p[0] = For(init_var=init_var, condition=condition, auto=auto, block_node=block_node)
 
     ####
     #### VAR RULES

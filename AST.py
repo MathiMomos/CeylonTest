@@ -90,6 +90,18 @@ class VarAssign(VarNode):
         self.left = left
         self.right = right
 
+class VarAuto(VarNode):
+    def __init__(self, op: Token, child: Var):
+        self.op = op
+        self.child = child
+
+class For(AST):
+    def __init__(self, init_var : VarAssign, condition : BinBooleanOp, auto : VarAuto, block_node : Block):
+        self.init_var = init_var
+        self.condition = condition
+        self.auto = auto
+        self.block_node = block_node
+
 class FinalAssign(VarNode):
     def __init__(self, left: Var, right: ExprNode):
         self.left = left
@@ -100,11 +112,6 @@ class VarCompoundAssign(VarNode):
         self.left = left
         self.op = op
         self.right = right
-
-class VarAuto(VarNode):
-    def __init__(self, op: Token, child: Var):
-        self.op = op
-        self.child = child
 
 class FunctionNode(AST):
     pass
@@ -128,6 +135,10 @@ class FunctionStmt(FunctionNode):
 class FunctionCall(FunctionNode):
     def __init__(self, func_name, child : Argument):
         self.func_name = func_name
+        self.child = child
+
+class Return():
+    def __init__(self, child : ExprNode):
         self.child = child
 
 class NoOp():
@@ -184,8 +195,12 @@ class ASTPrinter:
             self.print_bincomp(node)
         elif isinstance(node, Ternary):
             self.print_ternary(node)
+        elif isinstance(node, For):
+            self.print_for(node)
+        elif isinstance(node, Return):
+            self.print_return(node)
         elif isinstance(node, NoOp):
-            self.print_noop() # o pero aki esta
+            self.print_noop()
         else:
             print("  " * self.indent + "Unknown node type")
 
@@ -370,6 +385,26 @@ class ASTPrinter:
         self.print_node(node.left)
         print("  " * self.indent + "False Expr:")
         self.print_node(node.right)
+        self.indent -= 1
+
+    def print_for(self, node):
+        print("  " * self.indent + "For")
+        self.indent += 1
+        print("  " * self.indent + "Init Var:")
+        self.print_node(node.init_var)
+        print("  " * self.indent + "Condition:")
+        self.print_node(node.condition)
+        print("  " * self.indent + "Auto:")
+        self.print_node(node.auto)
+        print("  " * self.indent + "Block Node:")
+        self.print_node(node.block_node)
+        self.indent -= 1
+
+    def print_return(self, node):
+        print("  " * self.indent + "Return")
+        self.indent += 1
+        print("  " * self.indent + "Child:")
+        self.print_node(node.child)
         self.indent -= 1
 
     def print_noop(self):

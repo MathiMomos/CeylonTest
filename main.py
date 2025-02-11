@@ -4,28 +4,8 @@ import AST
 
 text = \
 '''
-
-fn suma(a, b) {
-    resultado = a + b;
-}
-
-fn verificarNumero(x) {
-    if (x > 0) {
-        estado = 1;
-    } elif (x < 0) {
-        estado = -1;
-    } else {
-        estado = 0;
-    }
-}
-
-fn contarHasta(n) {
-    sumaTotal = 0;
-    i = 1;
-    while (i <= n) {
-        sumaTotal += i;
-        i++;
-    }
+for (a = 1; a < 10; a++) {
+  wasa += 10;  
 }
 '''
 
