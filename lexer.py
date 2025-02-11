@@ -2,7 +2,7 @@ import ply.lex as lex
 from TokenType import TokenType, Token
 
 
-class Lexer():
+class CeylonLexer():
     tokens, reserved = TokenType.generate_tokens()
 
     # Expresiones regulares para operadores
@@ -258,7 +258,3 @@ class Lexer():
             if not tok:
                 break
             print(tok)
-
-lexer = Lexer()
-lexer.build()
-lexer.test("in")

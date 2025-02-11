@@ -1,11 +1,10 @@
 import ply.yacc as yacc
-from lexer import Lexer
-from AST import ScopeBlock, Block, If, While
-from Expr import ExprNode, Null, BinBooleanOp, Boolean, UnaryBoolean, String, Num, BinOp, Unary
+from lexer import CeylonLexer
+from AST import (ScopedBlock, Block, If, While, ExprNode, BinBooleanOp,
+                 Null, Boolean, BinComp, UnaryBoolean, String, Num, BinOp, Unary,
+                 Var, VarCompoundAssign, VarAssign, FinalAssign, VarAuto, Ternary,
+                 Parameter, Argument, FunctionStmt, FunctionCall, NoOp)
 from TokenType import TokenType, Token
-from Var import Var, VarCompoundAssign, VarAssign, FinalAssign, VarAuto
-from Function import Parameter, Argument, FunctionStmt, FunctionCall
-
 
 class Parser():
     
@@ -15,50 +14,52 @@ class Parser():
         ('right', 'POWER'),
     )
     
-    def __init__(self, lexer : Lexer):
-        self.lexer = lexer
+    def __init__(self, lexer):
+        self.Lexer = lexer
         self.tokens = lexer.tokens
 
     ####
     #### SCOPE BLOCK RULES
     ####
 
-    def p_scope_block(self, p):
-        '''scope_block : statement_list
-                       | empty'''
-        block_name = "ScopeBlock"
+    def p_block(self, p):
+        '''block : statement_list'''
+        block_name = "Block"
+        p[1].reverse()
         statement_list = p[1]
 
-        p[0] = ScopeBlock(block_name=block_name, statement_list=statement_list)
+        p[0] = Block(block_name=block_name, statement_list=statement_list)
+
+    def p_scoped_block(self, p):
+        '''scoped_block : statement_list
+                       | empty'''
+        block_name = "ScopedBlock"
+        p[1].reverse()
+        statement_list = p[1]
+
+        p[0] = ScopedBlock(block_name=block_name, statement_list=statement_list)
 
     ####
     #### BLOCK RULES
     ####
 
-    def p_block(self, p):
-        '''block : statement_list
-                 | empty'''
-        block_name = "Block"
-        statement_list = p[1]
-
-        p[0] = Block(block_name=block_name, statement_list=statement_list)
-
     def p_statement_list(self, p):
-        '''statement_list : statement SEMI statement_list
+        '''statement_list : statement statement_list
                           | empty'''
-        len_rule = len(p)
 
-        if len_rule == 4:
-            p[0] = p[1] + [p[2]] # statement list: [AST nodes, None]
+        # oe y si hacemos lo de non empty list? :v
+        len_rule = len(p)
+        if len_rule == 3:
+            p[0] = p[2] + [p[1]] # statement list: [AST nodes, NoOp]
         else:
-            p[0] = [p[1]] # [None]
+            p[0] = [p[1]] # [NoOp]
 
     def p_statement(self, p):
-        '''statement : var_assign
-                     | final_assign
-                     | var_compound_assign
-                     | var_auto
-                     | expr
+        '''statement : var_assign SEMI
+                     | final_assign SEMI
+                     | var_compound_assign SEMI
+                     | var_auto SEMI
+                     | expr SEMI
                      | func_stmt
                      | func_call
                      | if_stmt
@@ -72,9 +73,9 @@ class Parser():
 
     def p_func_stmt(self, p):
         '''func_stmt : FN var LPAREN parameters_list RPAREN LBRACE scoped_block RBRACE'''
-        func_name = p[2].value
+        func_name = p[2].var_name
         left: Parameter = p[4] # Possibly None: No parameters
-        right: ScopeBlock = p[7]
+        right: ScopedBlock = p[7]
 
         p[0] = FunctionStmt(left=left, func_name=func_name, right=right)
     
@@ -87,8 +88,18 @@ class Parser():
 
     def p_arguments_list(self, p):
         '''arguments_list : non_empty_arguments_list
-                           | empty'''
-        p[0] = p[1]  # None or Argument
+                          | empty'''
+        p[0] = p[1]  # None o Argument
+
+    def p_non_empty_arguments_list(self, p):
+        '''non_empty_arguments_list : var
+                                    | var COMMA non_empty_arguments_list'''  # <--- Cambio aquí
+        if len(p) == 2:
+            p[0] = p[1]  # Un solo argumento
+        else:
+            left: Var = p[1]
+            right: Argument = p[3]  # Ahora garantizamos que right nunca será None
+            p[0] = Argument(left=left, right=right)
 
     def p_parameters_list(self, p):
         '''parameters_list : non_empty_parameters_list
@@ -116,15 +127,17 @@ class Parser():
     # IF RULES
 
     def p_if_stmt(self, p):
-        '''if_stmt : IF LPAREN bool_expr RPAREN LBRACE block RBRACE elif_stmt'''
+        '''if_stmt : IF LPAREN boolean_expr RPAREN LBRACE block RBRACE elif_stmt'''
         condition : BinBooleanOp = p[3]
         left : Block = p[6]
         right : If = p[8]
 
+        print(condition)
+
         p[0] = If(left=left, condition=condition, right=right)
     
     def p_elif_stmt(self, p):
-        '''elif_stmt : ELIF LPAREN bool_expr RPAREN LBRACE block RBRACE elif_stmt
+        '''elif_stmt : ELIF LPAREN boolean_expr RPAREN LBRACE block RBRACE elif_stmt
                      | else_stmt
                      | empty'''
         len_rule = len(p)
@@ -148,13 +161,13 @@ class Parser():
     # WHILE RULES
 
     def p_while_stmt(self, p):
-        '''while_stmt : WHILE LPAREN bool_expr RPAREN LBRACE block RBRACE'''
+        '''while_stmt : WHILE LPAREN boolean_expr RPAREN LBRACE block RBRACE'''
         condition : BinBooleanOp = p[3]
         child : Block = p[6]
         p[0] = While(condition=condition, child=child)
 
     def p_for_stmt(self, p):
-        '''for_stmt : FOR LPAREN var_assign SEMI bool_expr SEMI var_auto RPAREN LBRACE scoped_block RBRACE'''
+        '''for_stmt : FOR LPAREN var_assign SEMI boolean_expr SEMI var_auto RPAREN LBRACE scoped_block RBRACE'''
         pass
 
     ####
@@ -208,7 +221,8 @@ class Parser():
                 | string_expr
                 | boolean_expr
                 | null_expr
-                | ternary_expr'''
+                | ternary_expr
+                | var'''
         p[0] = p[1]
     
     #### ARITHMETIC RULES
@@ -227,22 +241,22 @@ class Parser():
             child = p[2]
             p[0] = Unary(op=op, child=child)
         elif len_rule == 2:
-            token_terminal : Token = p[1]
-            if token_terminal.name == TokenType.ID.name:
-                p[0] = Var(var_name=token_terminal.value)
+            factor = p[1]
+            if isinstance(factor, Var):
+                p[0] = factor
             else:
-                p[0] = Num(value=token_terminal.value)
+                p[0] = Num(value=factor.value)
         else:
             p[0] = p[2]
 
     
     def p_num_expr(self, p):
-        '''num_expr : expr PLUS expr
-                    | expr MINUS expr
-                    | expr TIMES expr
-                    | expr DIVIDE expr
-                    | expr INT_DIVIDE expr
-                    | expr POWER expr
+        '''num_expr : num_expr PLUS num_expr
+                    | num_expr MINUS num_expr
+                    | num_expr TIMES num_expr
+                    | num_expr DIVIDE num_expr
+                    | num_expr INT_DIVIDE num_expr
+                    | num_expr POWER num_expr
                     | num_factor'''
         len_rule = len(p)
 
@@ -269,7 +283,6 @@ class Parser():
             token_terminal : Token = p[1]
             p[0] = String(value=token_terminal.value)
 
-    
     #### BOOLEAN RULES
     
     def p_boolean_expr(self, p):
@@ -296,6 +309,7 @@ class Parser():
     def p_boolean_factor(self, p):
         '''boolean_factor : LPAREN boolean_expr RPAREN
                           | BOOLEAN
+                          | comparison
                           | var'''
         grouping = 4
         len_rule = len(p)
@@ -304,14 +318,27 @@ class Parser():
             bin_bool_node: BinBooleanOp = p[2]
             p[0] = bin_bool_node
         else:
-            token_terminal : Token = p[1]
-            if token_terminal.name == TokenType.BOOLEAN.name:
-                p[0] = Boolean(value=token_terminal.value)
-            elif token_terminal.name == TokenType.ID.name:
-                p[0] = Var(var_name=token_terminal.value)
+            factor = p[1]
+            if isinstance(factor, BinComp) or isinstance(factor, Var):
+                p[0] = factor
+            elif factor.name == TokenType.BOOLEAN.name:
+                p[0] = Boolean(value=factor.value)
+
+    def p_comparison(self, p):
+        '''comparison : expr EQ expr
+                      | expr NE expr
+                      | expr LT expr
+                      | expr GT expr
+                      | expr LE expr
+                      | expr GE expr'''
+        left : ExprNode = p[1]
+        op : Token = p[2]
+        right : ExprNode = p[3]
+
+        p[0] = BinComp(left=left, op=op, right=right)
 
     #### NULL RULES
-    
+
     def p_null_expr(self, p):
         '''null_expr : NULL'''
         token_null : Token = p[1]
@@ -321,21 +348,25 @@ class Parser():
     #### SPECIAL RULES
     ####
 
-    def ternary_expr(self, p):
+    def p_ternary_expr(self, p):
         '''ternary_expr : boolean_expr TERNARY_Q expr TERNARY_C expr'''
-        pass
+        left : ExprNode = p[3]
+        condition = p[1]
+        right : ExprNode = p[5]
+
+        p[0] =Ternary(left=left, condition=condition, right=right)
 
     def p_empty(self, p):
         '''empty : '''
-        p[0] = None
+        p[0] = NoOp()
     
     ################################
 
     def p_error(self, p):
-        print("Syntax error in input!")
+        print("Syntax error in input!:", p)
     
     def build(self):
         self.parser = yacc.yacc(module=self)
         
-    def test(self, input):
-        return self.parser.parse(input)
+    def test(self, text):
+        return self.parser.parse(text)

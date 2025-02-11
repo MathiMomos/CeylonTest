@@ -6,11 +6,11 @@ class TokenType (Enum):
     ID = None
     
     # LITERALS
-    INTEGER = None # LEXER GIVES THE VALUE
-    STRING = None # LEXER GIVES THE VALUE
-    FSTRING = None # LEXER GIVES THE VALUE
-    BOOLEAN = None # LEXER GIVES THE VALUE
-    FLOAT = None # LEXER GIVES THE VALUE
+    INTEGER = "INTEGER" # LEXER GIVES THE VALUE
+    STRING = "STRING" # LEXER GIVES THE VALUE
+    FSTRING = "FSTRING" # LEXER GIVES THE VALUE
+    BOOLEAN = "BOOLEAN" # LEXER GIVES THE VALUE
+    FLOAT = "FLOAT" # LEXER GIVES THE VALUE
     
     # ASSIGN OPTRS
     ASSIGN = "="
@@ -77,13 +77,13 @@ class TokenType (Enum):
     POWER = "**"
     MODULO = "%"
     INT_DIVIDE = "//"
-    
+
+    @staticmethod
     def generate_tokens():
         TokenTypeList = list(TokenType)
         token_list = [token.name for token in TokenTypeList]
         reserved_list = token_list[token_list.index("FINAL"):token_list.index("NULL")+1]
         reserved_tokens = {token.value: token.name for token in [TokenType[tokenInstance] for tokenInstance in reserved_list]}
-        token_list = [token.name for token in TokenTypeList]
 
         return token_list, reserved_tokens
     
@@ -91,5 +91,5 @@ class Token():
     def __init__(self, name, value):
         self.name = name
         self.value = value
-        
-    
+
+tokens, reserved = TokenType.generate_tokens()

@@ -1,5 +1,5 @@
-from AST import AST, ScopeBlock
-from Var import Var
+from AST import AST, Var, ScopedBlock
+
 
 class FunctionNode(AST):
     pass
@@ -15,7 +15,7 @@ class Argument(FunctionNode):
         self.right = right # Argument
 
 class FunctionStmt(FunctionNode):
-    def __init__(self, func_name, right : ScopeBlock, left : Parameter = None):
+    def __init__(self, func_name, right : ScopedBlock, left : Parameter = None):
         self.left = left
         self.func_name = func_name
         self.right = right
