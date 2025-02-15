@@ -1,8 +1,7 @@
 import ply.lex as lex
-from TokenType import TokenType, Token
+from CeylonInterpreter.Tokens.TokenType import TokenType, Token
 
-
-class CeylonLexer():
+class CeylonLexer:
     tokens, reserved = TokenType.generate_tokens()
 
     # Expresiones regulares para operadores

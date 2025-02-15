@@ -61,6 +61,9 @@ class TokenType (Enum):
     TERNARY_Q = "?"
     TERNARY_C = ":"
 
+    # CONCAT
+    CONCAT = "..."
+
     # COMPARISON OPTRS
     EQ = "=="
     NE = "!="
@@ -87,7 +90,7 @@ class TokenType (Enum):
 
         return token_list, reserved_tokens
     
-class Token():
+class Token:
     def __init__(self, name, value):
         self.name = name
         self.value = value

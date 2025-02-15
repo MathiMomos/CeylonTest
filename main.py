@@ -1,19 +1,18 @@
-from lexer import CeylonLexer
-from parser import Parser
-import AST
+from CeylonInterpreter.Parser.parser import Parser
+from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 
 text = \
 '''
-for (a = 1; a < 10; a++) {
-  wasa += 10;  
+for(x = 2; x < 10; x++){
+
 }
 '''
 
-lexer = CeylonLexer()
-lexer.build()
-parser = Parser(lexer)
+parser = Parser()
 parser.build()
 ast = parser.test(text)
 
-printer = AST.ASTPrinter()
-printer.print_node(ast)
+semantic = CeylonSemantic()
+semantic.visit(ast)
+#printer = ASTPrinter()
+#printer.print_node(ast)

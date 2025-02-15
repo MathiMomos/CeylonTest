@@ -1,21 +1,38 @@
 import ply.yacc as yacc
-from AST import (ScopedBlock, Block, If, For, While, ExprNode, BinBooleanOp,
-                 Null, Boolean, BinComp, UnaryBoolean, String, Num, BinOp, Unary,
-                 Var, VarCompoundAssign, VarAssign, FinalAssign, VarAuto, Ternary,
-                 Parameter, Argument, FunctionStmt, FunctionCall, NoOp, Return)
-from TokenType import TokenType, Token
+from AST.Program import *
+from AST.Expr import *
+from AST.Var import *
+from AST.Block import *
+from AST.Function import *
+from AST.Special import *
+from AST.Flow import *
+from CeylonInterpreter.Tokens.TokenType import TokenType, Token
 
-class Parser():
+class Parser:
     
-    precedence = (
+    def __init__(self):
+        from CeylonInterpreter.Lexer.lexer import CeylonLexer
+        lexer = CeylonLexer()
+        lexer.build()
+        self.parser = None
+        self.Lexer = lexer
+        self.tokens = lexer.tokens
+        self.precedence = (
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE', "INT_DIVIDE"),
         ('right', 'POWER'),
     )
-    
-    def __init__(self, lexer):
-        self.Lexer = lexer
-        self.tokens = lexer.tokens
+
+    ####
+    #### PROGRAM RULES
+    ####
+
+    def p_program(self, p):
+        '''program : block'''
+        program_name = "Program"
+        block_node = p[1]
+
+        p[0] = Program(program_name=program_name, block_node=block_node)
 
     ####
     #### BLOCK RULES
@@ -23,17 +40,15 @@ class Parser():
 
     def p_block(self, p):
         '''block : statement_list'''
-        block_name = "Block"
         p[1].reverse()
         statement_list = p[1]
 
-        p[0] = Block(block_name=block_name, statement_list=statement_list)
+        p[0] = Block(statement_list=statement_list)
 
     def p_statement_list(self, p):
         '''statement_list : statement statement_list
                           | empty'''
 
-        # oe y si hacemos lo de non empty list? :v
         len_rule = len(p)
         if len_rule == 3:
             p[0] = p[2] + [p[1]] # statement list: [AST nodes, NoOp]
@@ -47,7 +62,7 @@ class Parser():
                      | var_auto SEMI
                      | expr SEMI
                      | func_stmt
-                     | func_call
+                     | func_call SEMI
                      | if_stmt
                      | while_stmt
                      | for_stmt
@@ -60,11 +75,10 @@ class Parser():
 
     def p_scoped_block(self, p):
         '''scoped_block : scope_statement_list'''
-        block_name = "ScopedBlock"
         p[1].reverse()
         statement_list = p[1]
 
-        p[0] = ScopedBlock(block_name=block_name, statement_list=statement_list)
+        p[0] = ScopedBlock(statement_list=statement_list)
 
     def p_scope_statement_list(self, p):
         '''scope_statement_list : scope_statement scope_statement_list
@@ -83,7 +97,7 @@ class Parser():
                      | var_auto SEMI
                      | expr SEMI
                      | func_stmt
-                     | func_call
+                     | func_call SEMI
                      | if_stmt
                      | while_stmt
                      | for_stmt
@@ -92,8 +106,7 @@ class Parser():
         p[0] = p[1] # None or AST NODE
 
     def p_return(self, p):
-        '''return : RETURN expr
-                  | RETURN empty'''
+        '''return : RETURN expr'''
 
         node = p[2]
         p[0] = Return(child=node)
@@ -112,7 +125,7 @@ class Parser():
     
     def p_func_call(self, p):
         '''func_call : var LPAREN arguments_list RPAREN'''
-        func_name = p[1].value
+        func_name = p[1].var_name
         child : Argument = p[3]
 
         p[0] = FunctionCall(func_name=func_name, child=child)
@@ -123,12 +136,12 @@ class Parser():
         p[0] = p[1]  # None o Argument
 
     def p_non_empty_arguments_list(self, p):
-        '''non_empty_arguments_list : var
-                                    | var COMMA non_empty_arguments_list'''  # <--- Cambio aquí
+        '''non_empty_arguments_list : expr COMMA non_empty_arguments_list
+                                    | expr'''  # <--- Cambio aquí
         if len(p) == 2:
             p[0] = p[1]  # Un solo argumento
         else:
-            left: Var = p[1]
+            left = p[1]
             right: Argument = p[3]  # Ahora garantizamos que right nunca será None
             p[0] = Argument(left=left, right=right)
 
@@ -147,7 +160,7 @@ class Parser():
             right : Parameter = p[3]
             p[0] = Parameter(left=left, right=right)
         else:
-            p[0] = p[1]
+            p[0] = Parameter(left=p[1], right= NoOp())
 
     ####
     #### FLOW CONTROL RULES
@@ -162,8 +175,6 @@ class Parser():
         condition : BinBooleanOp = p[3]
         left : Block = p[6]
         right : If = p[8]
-
-        print(condition)
 
         p[0] = If(left=left, condition=condition, right=right)
     
@@ -185,7 +196,7 @@ class Parser():
     def p_else_stmt(self, p):
         '''else_stmt : ELSE LBRACE block RBRACE'''
         left : Block = p[3]
-        p[0] = If(left=left)
+        p[0] = If(condition=NoOp(), left=left, right=NoOp())
 
     #### LOOP RULES
 
@@ -237,7 +248,7 @@ class Parser():
 
         left : Var = p[1]
         op : Token = p[2]
-        right : BinOp = p[3]
+        right = p[3]
         p[0] = VarCompoundAssign(left=left, op=op, right=right)
 
     def p_var_auto(self, p):
@@ -252,22 +263,22 @@ class Parser():
     ####
     
     def p_expr(self, p):
-        '''expr : num_expr
-                | string_expr
+        '''expr : string_expr
+                | num_expr
                 | boolean_expr
                 | null_expr
                 | ternary_expr
                 | var'''
         p[0] = p[1]
-    
-    #### ARITHMETIC RULES
+
+    #### ARITHMETIC RULES|
 
     def p_num_factor(self, p):
         '''num_factor : PLUS num_factor
                       | MINUS num_factor
                       | INTEGER
                       | FLOAT
-                      | LPAREN expr RPAREN
+                      | LPAREN num_expr RPAREN
                       | var'''
         len_rule = len(p)
 
@@ -277,14 +288,14 @@ class Parser():
             p[0] = Unary(op=op, child=child)
         elif len_rule == 2:
             factor = p[1]
-            if isinstance(factor, Var):
-                p[0] = factor
-            else:
+            if isinstance(factor, Token):
                 p[0] = Num(value=factor.value)
+            else:
+                p[0] = p[1]
+
         else:
             p[0] = p[2]
 
-    
     def p_num_expr(self, p):
         '''num_expr : num_expr PLUS num_expr
                     | num_expr MINUS num_expr
@@ -297,26 +308,32 @@ class Parser():
 
         if len_rule == 4:
             left = p[1]
-            op : Token = p[2]
+            op: Token = p[2]
             right = p[3]
 
             p[0] = BinOp(left=left, op=op, right=right)
         else:
             node = p[1]
             p[0] = p[1]
-    
+
+
     def p_string_expr(self, p):
-        '''string_expr : STRING PLUS string_expr
-                       | STRING'''
+        '''string_expr : string_expr CONCAT string_expr
+                       | STRING
+                       | var'''
         len_rule = len(p)
 
         if len_rule == 4:
-            token_terminal: Token = p[1]
-            node : String = p[3]
-            p[0] = String(value=token_terminal.value, child=node)
+                left = p[1]
+                right = p[3]
+                p[0] = StringConcat(left=left, right=right)
         else:
-            token_terminal : Token = p[1]
-            p[0] = String(value=token_terminal.value)
+                factor = p[1]
+
+                if isinstance(factor, Token):
+                    p[0] = String(value=factor.value)
+                else:
+                    p[0] = p[1]# Var
 
     #### BOOLEAN RULES
     
