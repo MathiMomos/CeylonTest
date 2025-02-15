@@ -1,5 +1,3 @@
-from CeylonInterpreter.Symbols.Symbol import BuiltinSymbol
-
 class ExprNode:
     pass
 
@@ -12,7 +10,6 @@ class BinOp(ExprNode):
 class Num(ExprNode):
     def __init__(self, value):
         self.value = value
-        self.expr_type = BuiltinSymbol("Number")
 
 class StringConcat(ExprNode):
     def __init__(self, left, right):
@@ -22,7 +19,6 @@ class StringConcat(ExprNode):
 class String(ExprNode):
     def __init__(self, value):
         self.value = value
-        self.expr_type = BuiltinSymbol("String")
 
 class Unary(ExprNode):
     def __init__(self, op, child): # op is a Token instance
@@ -45,14 +41,12 @@ class UnaryBoolean(ExprNode):
 class Boolean(ExprNode):
     def __init__(self, value):
         self.value = value
-        self.expr_type = BuiltinSymbol("Boolean")
 
 class BinComp(ExprNode):
     def __init__(self, left, op, right): # op is a Token instance
         self.left = left
         self.op = op
         self.right = right
-        self.expr_type = BuiltinSymbol("Boolean")
 
 class Ternary(ExprNode):
     def __init__(self,left, condition, right):
@@ -63,4 +57,3 @@ class Ternary(ExprNode):
 class Null(ExprNode):
     def __init__(self, value):
         self.value = value
-        self.expr_type = BuiltinSymbol("Null")

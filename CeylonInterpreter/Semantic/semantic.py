@@ -8,6 +8,7 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_Program(self, node):
 
+        print("***************************")
         print("ENTER SCOPE: PROGRAM")
 
         self.current_scope = ScopedSymbolTable(
@@ -21,6 +22,7 @@ class CeylonSemantic(NodeVisitor):
 
         print(self.current_scope)
         print("EXITING SCOPE: PROGRAM")
+        print("***************************")
 
         self.current_scope = None
 
@@ -47,6 +49,7 @@ class CeylonSemantic(NodeVisitor):
         # Adding the func_symbol to the current_scope
         self.current_scope.define(func_symbol)
 
+        print("***************************")
         print("ENTER FUNCTION SCOPE:", func_name)
 
         # Entering to the function scope
@@ -66,6 +69,7 @@ class CeylonSemantic(NodeVisitor):
 
         print(self.current_scope)
         print("EXITING FUNCTION SCOPE:", func_name)
+        print("***************************")
 
         # Exiting the function scope
         self.current_scope = self.current_scope.enclosing_scope
@@ -90,6 +94,7 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
+        print("***************************")
         print("ENTER SCOPE: IF")
 
         self.current_scope = if_scope
@@ -99,6 +104,7 @@ class CeylonSemantic(NodeVisitor):
 
         print(self.current_scope)
         print("EXITING SCOPE: IF")
+        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 
@@ -111,6 +117,7 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
+        print("***************************")
         print("ENTER SCOPE: WHILE")
 
         self.current_scope = while_scope
@@ -120,6 +127,7 @@ class CeylonSemantic(NodeVisitor):
 
         print(self.current_scope)
         print("EXITING SCOPE: WHILE")
+        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 
@@ -130,6 +138,7 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
+        print("***************************")
         print("ENTER SCOPE: FOR")
 
         self.current_scope = for_scope
@@ -141,6 +150,7 @@ class CeylonSemantic(NodeVisitor):
 
         print(self.current_scope)
         print("EXITING SCOPE: FOR")
+        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 
@@ -165,7 +175,7 @@ class CeylonSemantic(NodeVisitor):
             raise Exception("Local variable '%s' already exists" % param_name)
 
         # Saving the formal param
-        param_symbol = VarSymbol(var_name=param_name, var_type="None")
+        param_symbol = VarSymbol(var_name=param_name)
         self.current_scope.define(param_symbol)
 
         # Next param or NoOp call
@@ -176,7 +186,7 @@ class CeylonSemantic(NodeVisitor):
         self.visit(node.right)
 
     def visit_String(self, node):
-        return node.expr_type
+        pass
 
     def visit_StringConcat(self, node):
         type_left = self.visit(node.left)
@@ -188,22 +198,17 @@ class CeylonSemantic(NodeVisitor):
         raise Exception("Type '%s' is not compatible with '%s'" % (type_left.name, type_right.name))
 
     def visit_Boolean(self, node):
-        return node.expr_type
+        pass
 
     def visit_Null(self, node):
-        return node.expr_type
+        pass
 
     def visit_BinOp(self, node):
-        type_left = self.visit(node.left)
-        type_right = self.visit(node.right)
-
-        if type_left.name == type_right.name:
-            return type_left
-
-        raise Exception("Type '%s' is not compatible with '%s'" % (type_left.name, type_right.name))
+        self.visit(node.left)
+        self.visit(node.right)
 
     def visit_Num(self, node):
-        return node.expr_type
+        pass
 
     def visit_Var(self, node):
         var_name = node.var_name
@@ -215,18 +220,12 @@ class CeylonSemantic(NodeVisitor):
         return var_symbol.type
 
     def visit_BinBooleanOp(self, node):
-        type_left = self.visit(node.left)
-        type_right = self.visit(node.right)
-
-        if type_left.name == type_right.name:
-            return type_left
-
-        raise Exception("Type '%s' is not compatible with '%s'" % (type_left.name, type_right.name))
+        self.visit(node.left)
+        self.visit(node.right)
 
     def visit_BinComp(self, node):
         self.visit(node.left)
         self.visit(node.right)
-        return node.expr_type
 
     def visit_Unary(self, node):
         self.visit(node.child)
@@ -241,7 +240,7 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_VarAssign(self, node):
         var_name = node.left.var_name
-        type_symbol = self.visit(node.right)
+        self.visit(node.right)
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
 
         # Checks if the assign is for a final (Raises an Exception)
@@ -249,14 +248,15 @@ class CeylonSemantic(NodeVisitor):
             raise Exception("Final '%s' cannot be reasigned" % var_name)
 
         if var_symbol is not None:
-            var_symbol.type = type_symbol
-        else:
-            var_symbol = VarSymbol(var_name=var_name, var_type=type_symbol)
-            self.current_scope.define(var_symbol)
+            return
+
+        var_symbol = VarSymbol(var_name=var_name)
+        self.current_scope.define(var_symbol)
+
 
     def visit_FinalAssign(self, node):
         final_name = node.left.var_name
-        type_symbol = self.visit(node.right)
+        self.visit(node.right)
 
         saved_final_symbol = self.current_scope.lookup(final_name)
 
@@ -264,30 +264,27 @@ class CeylonSemantic(NodeVisitor):
         if saved_final_symbol is not None:
             raise Exception("Final '%s' already exists" % final_name)
 
-        final_symbol = FinalSymbol(final_name=final_name, final_type=type_symbol)
+        final_symbol = FinalSymbol(final_name=final_name)
         self.current_scope.define(final_symbol)
 
     def visit_VarAuto(self, node):
         var_name = node.child.var_name
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
-        type_symbol = self.visit(node.child)
+        self.visit(node.child)
+
+        if isinstance(var_symbol, FinalSymbol):
+            raise Exception("Final '%s' cannot be reassigned" % var_name)
 
         if var_symbol is None:
             raise Exception("Variable '%s' is not defined" % var_name)
-
-        if type_symbol.name != "Number":
-            raise Exception("Type '%s' is not compatible with autoincrement or autodecrement" % type_symbol.name)
 
     def visit_VarCompound(self, node):
         var_name = node.left.var_name
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
-        type_symbol = self.visit(node.right)
+        self.visit(node.right)
 
         if var_symbol is None:
             raise Exception("Variable '%s' is not defined" % var_name)
-
-        if type_symbol.name != "Number":
-            raise Exception("Type '%s' is not compatible with autoincrement or autodecrement" % type_symbol.name)
 
     def visit_Return(self, node):
         self.visit(node.child)

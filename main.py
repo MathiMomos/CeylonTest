@@ -3,9 +3,22 @@ from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 
 text = \
 '''
-for(x = 2; x < 10; x++){
+final x = 5;
+final y = 6;
+z = 7;
+
+for (asd = 5; x < 10; asd++) {
 
 }
+
+if (true) {
+    valorCondicional = true;
+}
+
+fn Sum(x, y) {
+    fg = null;
+}
+
 '''
 
 parser = Parser()

@@ -1,17 +1,9 @@
-from .Symbol import BuiltinSymbol
-
 class ScopedSymbolTable:
     def __init__(self, scope_name, scope_level, enclosing_scope):
         self._symbols = dict()
         self.scope_name = scope_name
         self.scope_level = scope_level
         self.enclosing_scope = enclosing_scope
-
-    def init_builtins(self):
-        self.define(BuiltinSymbol("Number"))
-        self.define(BuiltinSymbol("String"))
-        self.define(BuiltinSymbol("Boolean"))
-        self.define(BuiltinSymbol("Null"))
 
     def define(self, symbol):
         self._symbols[symbol.name] = symbol
@@ -48,7 +40,7 @@ Symbols:
         symbols = ""
 
         for symbol_name, symbol in self._symbols.items():
-            symbols += "{}: {}\n".format(symbol_name, symbol.type)
+            symbols += "{}: {}\n".format(symbol_name, symbol)
 
         return main + symbols
 
