@@ -81,8 +81,8 @@ class Parser:
         p[0] = ScopedBlock(statement_list=statement_list)
 
     def p_scope_statement_list(self, p):
-        '''scope_statement_list : scope_statement scope_statement_list
-                          | empty'''
+        '''scoped_statement_list : scoped_statement scoped_statement_list
+                                 | empty'''
 
         len_rule = len(p)
         if len_rule == 3:
@@ -91,18 +91,18 @@ class Parser:
             p[0] = [p[1]] # [NoOp]
 
     def p_scope_statement(self, p):
-        '''scope_statement : var_assign SEMI
-                     | final_assign SEMI
-                     | var_compound_assign SEMI
-                     | var_auto SEMI
-                     | expr SEMI
-                     | func_stmt
-                     | func_call SEMI
-                     | if_stmt
-                     | while_stmt
-                     | for_stmt
-                     | return SEMI
-                     | empty'''
+        '''scoped_statement : var_assign SEMI
+                            | final_assign SEMI
+                            | var_compound_assign SEMI
+                            | var_auto SEMI
+                            | expr SEMI
+                            | func_stmt
+                            | func_call SEMI
+                            | if_stmt
+                            | while_stmt
+                            | for_stmt
+                            | return SEMI
+                            | empty'''
         p[0] = p[1] # None or AST NODE
 
     def p_return(self, p):

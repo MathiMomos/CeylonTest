@@ -189,13 +189,8 @@ class CeylonSemantic(NodeVisitor):
         pass
 
     def visit_StringConcat(self, node):
-        type_left = self.visit(node.left)
-        type_right = self.visit(node.right)
-
-        if type_left.name == type_right.name:
-            return type_left
-
-        raise Exception("Type '%s' is not compatible with '%s'" % (type_left.name, type_right.name))
+        self.visit(node.left)
+        self.visit(node.right)
 
     def visit_Boolean(self, node):
         pass
@@ -209,15 +204,6 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_Num(self, node):
         pass
-
-    def visit_Var(self, node):
-        var_name = node.var_name
-        var_symbol = self.current_scope.lookup(var_name) # Finds at the scope and in the enclosing scope
-
-        if var_symbol is None:
-            raise Exception("Variable '%s' is not defined" % var_name)
-
-        return var_symbol.type
 
     def visit_BinBooleanOp(self, node):
         self.visit(node.left)
@@ -240,12 +226,13 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_VarAssign(self, node):
         var_name = node.left.var_name
-        self.visit(node.right)
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
 
         # Checks if the assign is for a final (Raises an Exception)
         if isinstance(var_symbol, FinalSymbol):
             raise Exception("Final '%s' cannot be reasigned" % var_name)
+
+        self.visit(node.right)
 
         if var_symbol is not None:
             return
@@ -256,13 +243,17 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_FinalAssign(self, node):
         final_name = node.left.var_name
-        self.visit(node.right)
 
         saved_final_symbol = self.current_scope.lookup(final_name)
 
+        if isinstance(saved_final_symbol, VarSymbol):
+            raise Exception("Var '%s' already exists" % final_name)
+
         # Raises a SemanticError if the final is already defined
-        if saved_final_symbol is not None:
+        if isinstance(saved_final_symbol, FinalSymbol):
             raise Exception("Final '%s' already exists" % final_name)
+
+        self.visit(node.right)
 
         final_symbol = FinalSymbol(final_name=final_name)
         self.current_scope.define(final_symbol)
@@ -278,13 +269,26 @@ class CeylonSemantic(NodeVisitor):
         if var_symbol is None:
             raise Exception("Variable '%s' is not defined" % var_name)
 
-    def visit_VarCompound(self, node):
-        var_name = node.left.var_name
-        var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
-        self.visit(node.right)
+    def visit_Var(self, node):
+        var_name = node.var_name
+        var_symbol = self.current_scope.lookup(var_name) # Finds at the scope and in the enclosing scope
 
         if var_symbol is None:
             raise Exception("Variable '%s' is not defined" % var_name)
+
+        return var_symbol.type
+
+    def visit_VarCompoundAssign(self, node):
+        var_name = node.left.var_name
+        var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
+
+        if var_symbol is None:
+            raise Exception("Variable '%s' is not defined" % var_name)
+
+        if isinstance(var_symbol, FinalSymbol):
+            raise Exception("Final '%s' cannot be reassigned" % var_name)
+
+        self.visit(node.right)
 
     def visit_Return(self, node):
         self.visit(node.child)

@@ -5,4 +5,4 @@ class NodeVisitor:
         return method(node)
 
     def invalid_node(self, node):
-        raise Exception('Invalid node')
+        raise Exception('Invalid node', node)
