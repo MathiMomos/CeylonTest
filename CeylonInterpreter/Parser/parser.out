@@ -32,21 +32,21 @@ Rule 12    statement -> if_stmt
 Rule 13    statement -> while_stmt
 Rule 14    statement -> for_stmt
 Rule 15    statement -> empty
-Rule 16    scoped_block -> scope_statement_list
-Rule 17    scope_statement_list -> scope_statement scope_statement_list
-Rule 18    scope_statement_list -> empty
-Rule 19    scope_statement -> var_assign SEMI
-Rule 20    scope_statement -> final_assign SEMI
-Rule 21    scope_statement -> var_compound_assign SEMI
-Rule 22    scope_statement -> var_auto SEMI
-Rule 23    scope_statement -> expr SEMI
-Rule 24    scope_statement -> func_stmt
-Rule 25    scope_statement -> func_call SEMI
-Rule 26    scope_statement -> if_stmt
-Rule 27    scope_statement -> while_stmt
-Rule 28    scope_statement -> for_stmt
-Rule 29    scope_statement -> return SEMI
-Rule 30    scope_statement -> empty
+Rule 16    scoped_block -> scoped_statement_list
+Rule 17    scoped_statement_list -> scoped_statement scoped_statement_list
+Rule 18    scoped_statement_list -> empty
+Rule 19    scoped_statement -> var_assign SEMI
+Rule 20    scoped_statement -> final_assign SEMI
+Rule 21    scoped_statement -> var_compound_assign SEMI
+Rule 22    scoped_statement -> var_auto SEMI
+Rule 23    scoped_statement -> expr SEMI
+Rule 24    scoped_statement -> func_stmt
+Rule 25    scoped_statement -> func_call SEMI
+Rule 26    scoped_statement -> if_stmt
+Rule 27    scoped_statement -> while_stmt
+Rule 28    scoped_statement -> for_stmt
+Rule 29    scoped_statement -> return SEMI
+Rule 30    scoped_statement -> empty
 Rule 31    return -> RETURN expr
 Rule 32    func_stmt -> FN var LPAREN parameters_list RPAREN LBRACE scoped_block RBRACE
 Rule 33    func_call -> var LPAREN arguments_list RPAREN
@@ -204,9 +204,9 @@ num_factor           : 67 68 79
 parameters_list      : 32
 program              : 0
 return               : 29
-scope_statement      : 17
-scope_statement_list : 16 17
 scoped_block         : 32
+scoped_statement     : 17
+scoped_statement_list : 16 17
 statement            : 3
 statement_list       : 2 3
 string_expr          : 61 80 80
@@ -5000,21 +5000,21 @@ state 148
 state 149
 
     (32) func_stmt -> FN var LPAREN parameters_list RPAREN LBRACE . scoped_block RBRACE
-    (16) scoped_block -> . scope_statement_list
-    (17) scope_statement_list -> . scope_statement scope_statement_list
-    (18) scope_statement_list -> . empty
-    (19) scope_statement -> . var_assign SEMI
-    (20) scope_statement -> . final_assign SEMI
-    (21) scope_statement -> . var_compound_assign SEMI
-    (22) scope_statement -> . var_auto SEMI
-    (23) scope_statement -> . expr SEMI
-    (24) scope_statement -> . func_stmt
-    (25) scope_statement -> . func_call SEMI
-    (26) scope_statement -> . if_stmt
-    (27) scope_statement -> . while_stmt
-    (28) scope_statement -> . for_stmt
-    (29) scope_statement -> . return SEMI
-    (30) scope_statement -> . empty
+    (16) scoped_block -> . scoped_statement_list
+    (17) scoped_statement_list -> . scoped_statement scoped_statement_list
+    (18) scoped_statement_list -> . empty
+    (19) scoped_statement -> . var_assign SEMI
+    (20) scoped_statement -> . final_assign SEMI
+    (21) scoped_statement -> . var_compound_assign SEMI
+    (22) scoped_statement -> . var_auto SEMI
+    (23) scoped_statement -> . expr SEMI
+    (24) scoped_statement -> . func_stmt
+    (25) scoped_statement -> . func_call SEMI
+    (26) scoped_statement -> . if_stmt
+    (27) scoped_statement -> . while_stmt
+    (28) scoped_statement -> . for_stmt
+    (29) scoped_statement -> . return SEMI
+    (30) scoped_statement -> . empty
     (99) empty -> .
     (50) var_assign -> . var ASSIGN expr
     (51) final_assign -> . FINAL var ASSIGN expr
@@ -5126,8 +5126,8 @@ state 149
 
     var                            shift and go to state 16
     scoped_block                   shift and go to state 153
-    scope_statement_list           shift and go to state 154
-    scope_statement                shift and go to state 155
+    scoped_statement_list          shift and go to state 154
+    scoped_statement               shift and go to state 155
     empty                          shift and go to state 156
     var_assign                     shift and go to state 157
     final_assign                   shift and go to state 158
@@ -5184,28 +5184,28 @@ state 153
 
 state 154
 
-    (16) scoped_block -> scope_statement_list .
+    (16) scoped_block -> scoped_statement_list .
 
-    RBRACE          reduce using rule 16 (scoped_block -> scope_statement_list .)
+    RBRACE          reduce using rule 16 (scoped_block -> scoped_statement_list .)
 
 
 state 155
 
-    (17) scope_statement_list -> scope_statement . scope_statement_list
-    (17) scope_statement_list -> . scope_statement scope_statement_list
-    (18) scope_statement_list -> . empty
-    (19) scope_statement -> . var_assign SEMI
-    (20) scope_statement -> . final_assign SEMI
-    (21) scope_statement -> . var_compound_assign SEMI
-    (22) scope_statement -> . var_auto SEMI
-    (23) scope_statement -> . expr SEMI
-    (24) scope_statement -> . func_stmt
-    (25) scope_statement -> . func_call SEMI
-    (26) scope_statement -> . if_stmt
-    (27) scope_statement -> . while_stmt
-    (28) scope_statement -> . for_stmt
-    (29) scope_statement -> . return SEMI
-    (30) scope_statement -> . empty
+    (17) scoped_statement_list -> scoped_statement . scoped_statement_list
+    (17) scoped_statement_list -> . scoped_statement scoped_statement_list
+    (18) scoped_statement_list -> . empty
+    (19) scoped_statement -> . var_assign SEMI
+    (20) scoped_statement -> . final_assign SEMI
+    (21) scoped_statement -> . var_compound_assign SEMI
+    (22) scoped_statement -> . var_auto SEMI
+    (23) scoped_statement -> . expr SEMI
+    (24) scoped_statement -> . func_stmt
+    (25) scoped_statement -> . func_call SEMI
+    (26) scoped_statement -> . if_stmt
+    (27) scoped_statement -> . while_stmt
+    (28) scoped_statement -> . for_stmt
+    (29) scoped_statement -> . return SEMI
+    (30) scoped_statement -> . empty
     (99) empty -> .
     (50) var_assign -> . var ASSIGN expr
     (51) final_assign -> . FINAL var ASSIGN expr
@@ -5315,8 +5315,8 @@ state 155
   ! LPAREN          [ reduce using rule 99 (empty -> .) ]
   ! BOOLEAN         [ reduce using rule 99 (empty -> .) ]
 
-    scope_statement                shift and go to state 155
-    scope_statement_list           shift and go to state 174
+    scoped_statement               shift and go to state 155
+    scoped_statement_list          shift and go to state 174
     empty                          shift and go to state 156
     var_assign                     shift and go to state 157
     final_assign                   shift and go to state 158
@@ -5341,62 +5341,62 @@ state 155
 
 state 156
 
-    (18) scope_statement_list -> empty .
-    (30) scope_statement -> empty .
+    (18) scoped_statement_list -> empty .
+    (30) scoped_statement -> empty .
 
-  ! reduce/reduce conflict for RBRACE resolved using rule 18 (scope_statement_list -> empty .)
-    RBRACE          reduce using rule 18 (scope_statement_list -> empty .)
-    FINAL           reduce using rule 30 (scope_statement -> empty .)
-    FN              reduce using rule 30 (scope_statement -> empty .)
-    IF              reduce using rule 30 (scope_statement -> empty .)
-    WHILE           reduce using rule 30 (scope_statement -> empty .)
-    FOR             reduce using rule 30 (scope_statement -> empty .)
-    RETURN          reduce using rule 30 (scope_statement -> empty .)
-    ID              reduce using rule 30 (scope_statement -> empty .)
-    STRING          reduce using rule 30 (scope_statement -> empty .)
-    NOT             reduce using rule 30 (scope_statement -> empty .)
-    NULL            reduce using rule 30 (scope_statement -> empty .)
-    PLUS            reduce using rule 30 (scope_statement -> empty .)
-    MINUS           reduce using rule 30 (scope_statement -> empty .)
-    INTEGER         reduce using rule 30 (scope_statement -> empty .)
-    FLOAT           reduce using rule 30 (scope_statement -> empty .)
-    LPAREN          reduce using rule 30 (scope_statement -> empty .)
-    BOOLEAN         reduce using rule 30 (scope_statement -> empty .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 18 (scoped_statement_list -> empty .)
+    RBRACE          reduce using rule 18 (scoped_statement_list -> empty .)
+    FINAL           reduce using rule 30 (scoped_statement -> empty .)
+    FN              reduce using rule 30 (scoped_statement -> empty .)
+    IF              reduce using rule 30 (scoped_statement -> empty .)
+    WHILE           reduce using rule 30 (scoped_statement -> empty .)
+    FOR             reduce using rule 30 (scoped_statement -> empty .)
+    RETURN          reduce using rule 30 (scoped_statement -> empty .)
+    ID              reduce using rule 30 (scoped_statement -> empty .)
+    STRING          reduce using rule 30 (scoped_statement -> empty .)
+    NOT             reduce using rule 30 (scoped_statement -> empty .)
+    NULL            reduce using rule 30 (scoped_statement -> empty .)
+    PLUS            reduce using rule 30 (scoped_statement -> empty .)
+    MINUS           reduce using rule 30 (scoped_statement -> empty .)
+    INTEGER         reduce using rule 30 (scoped_statement -> empty .)
+    FLOAT           reduce using rule 30 (scoped_statement -> empty .)
+    LPAREN          reduce using rule 30 (scoped_statement -> empty .)
+    BOOLEAN         reduce using rule 30 (scoped_statement -> empty .)
 
-  ! RBRACE          [ reduce using rule 30 (scope_statement -> empty .) ]
+  ! RBRACE          [ reduce using rule 30 (scoped_statement -> empty .) ]
 
 
 state 157
 
-    (19) scope_statement -> var_assign . SEMI
+    (19) scoped_statement -> var_assign . SEMI
 
     SEMI            shift and go to state 175
 
 
 state 158
 
-    (20) scope_statement -> final_assign . SEMI
+    (20) scoped_statement -> final_assign . SEMI
 
     SEMI            shift and go to state 176
 
 
 state 159
 
-    (21) scope_statement -> var_compound_assign . SEMI
+    (21) scoped_statement -> var_compound_assign . SEMI
 
     SEMI            shift and go to state 177
 
 
 state 160
 
-    (22) scope_statement -> var_auto . SEMI
+    (22) scoped_statement -> var_auto . SEMI
 
     SEMI            shift and go to state 178
 
 
 state 161
 
-    (23) scope_statement -> expr . SEMI
+    (23) scoped_statement -> expr . SEMI
     (91) comparison -> expr . EQ expr
     (92) comparison -> expr . NE expr
     (93) comparison -> expr . LT expr
@@ -5415,106 +5415,106 @@ state 161
 
 state 162
 
-    (24) scope_statement -> func_stmt .
+    (24) scoped_statement -> func_stmt .
 
-    FINAL           reduce using rule 24 (scope_statement -> func_stmt .)
-    FN              reduce using rule 24 (scope_statement -> func_stmt .)
-    IF              reduce using rule 24 (scope_statement -> func_stmt .)
-    WHILE           reduce using rule 24 (scope_statement -> func_stmt .)
-    FOR             reduce using rule 24 (scope_statement -> func_stmt .)
-    RETURN          reduce using rule 24 (scope_statement -> func_stmt .)
-    ID              reduce using rule 24 (scope_statement -> func_stmt .)
-    STRING          reduce using rule 24 (scope_statement -> func_stmt .)
-    NOT             reduce using rule 24 (scope_statement -> func_stmt .)
-    NULL            reduce using rule 24 (scope_statement -> func_stmt .)
-    PLUS            reduce using rule 24 (scope_statement -> func_stmt .)
-    MINUS           reduce using rule 24 (scope_statement -> func_stmt .)
-    INTEGER         reduce using rule 24 (scope_statement -> func_stmt .)
-    FLOAT           reduce using rule 24 (scope_statement -> func_stmt .)
-    LPAREN          reduce using rule 24 (scope_statement -> func_stmt .)
-    BOOLEAN         reduce using rule 24 (scope_statement -> func_stmt .)
-    RBRACE          reduce using rule 24 (scope_statement -> func_stmt .)
+    FINAL           reduce using rule 24 (scoped_statement -> func_stmt .)
+    FN              reduce using rule 24 (scoped_statement -> func_stmt .)
+    IF              reduce using rule 24 (scoped_statement -> func_stmt .)
+    WHILE           reduce using rule 24 (scoped_statement -> func_stmt .)
+    FOR             reduce using rule 24 (scoped_statement -> func_stmt .)
+    RETURN          reduce using rule 24 (scoped_statement -> func_stmt .)
+    ID              reduce using rule 24 (scoped_statement -> func_stmt .)
+    STRING          reduce using rule 24 (scoped_statement -> func_stmt .)
+    NOT             reduce using rule 24 (scoped_statement -> func_stmt .)
+    NULL            reduce using rule 24 (scoped_statement -> func_stmt .)
+    PLUS            reduce using rule 24 (scoped_statement -> func_stmt .)
+    MINUS           reduce using rule 24 (scoped_statement -> func_stmt .)
+    INTEGER         reduce using rule 24 (scoped_statement -> func_stmt .)
+    FLOAT           reduce using rule 24 (scoped_statement -> func_stmt .)
+    LPAREN          reduce using rule 24 (scoped_statement -> func_stmt .)
+    BOOLEAN         reduce using rule 24 (scoped_statement -> func_stmt .)
+    RBRACE          reduce using rule 24 (scoped_statement -> func_stmt .)
 
 
 state 163
 
-    (25) scope_statement -> func_call . SEMI
+    (25) scoped_statement -> func_call . SEMI
 
     SEMI            shift and go to state 180
 
 
 state 164
 
-    (26) scope_statement -> if_stmt .
+    (26) scoped_statement -> if_stmt .
 
-    FINAL           reduce using rule 26 (scope_statement -> if_stmt .)
-    FN              reduce using rule 26 (scope_statement -> if_stmt .)
-    IF              reduce using rule 26 (scope_statement -> if_stmt .)
-    WHILE           reduce using rule 26 (scope_statement -> if_stmt .)
-    FOR             reduce using rule 26 (scope_statement -> if_stmt .)
-    RETURN          reduce using rule 26 (scope_statement -> if_stmt .)
-    ID              reduce using rule 26 (scope_statement -> if_stmt .)
-    STRING          reduce using rule 26 (scope_statement -> if_stmt .)
-    NOT             reduce using rule 26 (scope_statement -> if_stmt .)
-    NULL            reduce using rule 26 (scope_statement -> if_stmt .)
-    PLUS            reduce using rule 26 (scope_statement -> if_stmt .)
-    MINUS           reduce using rule 26 (scope_statement -> if_stmt .)
-    INTEGER         reduce using rule 26 (scope_statement -> if_stmt .)
-    FLOAT           reduce using rule 26 (scope_statement -> if_stmt .)
-    LPAREN          reduce using rule 26 (scope_statement -> if_stmt .)
-    BOOLEAN         reduce using rule 26 (scope_statement -> if_stmt .)
-    RBRACE          reduce using rule 26 (scope_statement -> if_stmt .)
+    FINAL           reduce using rule 26 (scoped_statement -> if_stmt .)
+    FN              reduce using rule 26 (scoped_statement -> if_stmt .)
+    IF              reduce using rule 26 (scoped_statement -> if_stmt .)
+    WHILE           reduce using rule 26 (scoped_statement -> if_stmt .)
+    FOR             reduce using rule 26 (scoped_statement -> if_stmt .)
+    RETURN          reduce using rule 26 (scoped_statement -> if_stmt .)
+    ID              reduce using rule 26 (scoped_statement -> if_stmt .)
+    STRING          reduce using rule 26 (scoped_statement -> if_stmt .)
+    NOT             reduce using rule 26 (scoped_statement -> if_stmt .)
+    NULL            reduce using rule 26 (scoped_statement -> if_stmt .)
+    PLUS            reduce using rule 26 (scoped_statement -> if_stmt .)
+    MINUS           reduce using rule 26 (scoped_statement -> if_stmt .)
+    INTEGER         reduce using rule 26 (scoped_statement -> if_stmt .)
+    FLOAT           reduce using rule 26 (scoped_statement -> if_stmt .)
+    LPAREN          reduce using rule 26 (scoped_statement -> if_stmt .)
+    BOOLEAN         reduce using rule 26 (scoped_statement -> if_stmt .)
+    RBRACE          reduce using rule 26 (scoped_statement -> if_stmt .)
 
 
 state 165
 
-    (27) scope_statement -> while_stmt .
+    (27) scoped_statement -> while_stmt .
 
-    FINAL           reduce using rule 27 (scope_statement -> while_stmt .)
-    FN              reduce using rule 27 (scope_statement -> while_stmt .)
-    IF              reduce using rule 27 (scope_statement -> while_stmt .)
-    WHILE           reduce using rule 27 (scope_statement -> while_stmt .)
-    FOR             reduce using rule 27 (scope_statement -> while_stmt .)
-    RETURN          reduce using rule 27 (scope_statement -> while_stmt .)
-    ID              reduce using rule 27 (scope_statement -> while_stmt .)
-    STRING          reduce using rule 27 (scope_statement -> while_stmt .)
-    NOT             reduce using rule 27 (scope_statement -> while_stmt .)
-    NULL            reduce using rule 27 (scope_statement -> while_stmt .)
-    PLUS            reduce using rule 27 (scope_statement -> while_stmt .)
-    MINUS           reduce using rule 27 (scope_statement -> while_stmt .)
-    INTEGER         reduce using rule 27 (scope_statement -> while_stmt .)
-    FLOAT           reduce using rule 27 (scope_statement -> while_stmt .)
-    LPAREN          reduce using rule 27 (scope_statement -> while_stmt .)
-    BOOLEAN         reduce using rule 27 (scope_statement -> while_stmt .)
-    RBRACE          reduce using rule 27 (scope_statement -> while_stmt .)
+    FINAL           reduce using rule 27 (scoped_statement -> while_stmt .)
+    FN              reduce using rule 27 (scoped_statement -> while_stmt .)
+    IF              reduce using rule 27 (scoped_statement -> while_stmt .)
+    WHILE           reduce using rule 27 (scoped_statement -> while_stmt .)
+    FOR             reduce using rule 27 (scoped_statement -> while_stmt .)
+    RETURN          reduce using rule 27 (scoped_statement -> while_stmt .)
+    ID              reduce using rule 27 (scoped_statement -> while_stmt .)
+    STRING          reduce using rule 27 (scoped_statement -> while_stmt .)
+    NOT             reduce using rule 27 (scoped_statement -> while_stmt .)
+    NULL            reduce using rule 27 (scoped_statement -> while_stmt .)
+    PLUS            reduce using rule 27 (scoped_statement -> while_stmt .)
+    MINUS           reduce using rule 27 (scoped_statement -> while_stmt .)
+    INTEGER         reduce using rule 27 (scoped_statement -> while_stmt .)
+    FLOAT           reduce using rule 27 (scoped_statement -> while_stmt .)
+    LPAREN          reduce using rule 27 (scoped_statement -> while_stmt .)
+    BOOLEAN         reduce using rule 27 (scoped_statement -> while_stmt .)
+    RBRACE          reduce using rule 27 (scoped_statement -> while_stmt .)
 
 
 state 166
 
-    (28) scope_statement -> for_stmt .
+    (28) scoped_statement -> for_stmt .
 
-    FINAL           reduce using rule 28 (scope_statement -> for_stmt .)
-    FN              reduce using rule 28 (scope_statement -> for_stmt .)
-    IF              reduce using rule 28 (scope_statement -> for_stmt .)
-    WHILE           reduce using rule 28 (scope_statement -> for_stmt .)
-    FOR             reduce using rule 28 (scope_statement -> for_stmt .)
-    RETURN          reduce using rule 28 (scope_statement -> for_stmt .)
-    ID              reduce using rule 28 (scope_statement -> for_stmt .)
-    STRING          reduce using rule 28 (scope_statement -> for_stmt .)
-    NOT             reduce using rule 28 (scope_statement -> for_stmt .)
-    NULL            reduce using rule 28 (scope_statement -> for_stmt .)
-    PLUS            reduce using rule 28 (scope_statement -> for_stmt .)
-    MINUS           reduce using rule 28 (scope_statement -> for_stmt .)
-    INTEGER         reduce using rule 28 (scope_statement -> for_stmt .)
-    FLOAT           reduce using rule 28 (scope_statement -> for_stmt .)
-    LPAREN          reduce using rule 28 (scope_statement -> for_stmt .)
-    BOOLEAN         reduce using rule 28 (scope_statement -> for_stmt .)
-    RBRACE          reduce using rule 28 (scope_statement -> for_stmt .)
+    FINAL           reduce using rule 28 (scoped_statement -> for_stmt .)
+    FN              reduce using rule 28 (scoped_statement -> for_stmt .)
+    IF              reduce using rule 28 (scoped_statement -> for_stmt .)
+    WHILE           reduce using rule 28 (scoped_statement -> for_stmt .)
+    FOR             reduce using rule 28 (scoped_statement -> for_stmt .)
+    RETURN          reduce using rule 28 (scoped_statement -> for_stmt .)
+    ID              reduce using rule 28 (scoped_statement -> for_stmt .)
+    STRING          reduce using rule 28 (scoped_statement -> for_stmt .)
+    NOT             reduce using rule 28 (scoped_statement -> for_stmt .)
+    NULL            reduce using rule 28 (scoped_statement -> for_stmt .)
+    PLUS            reduce using rule 28 (scoped_statement -> for_stmt .)
+    MINUS           reduce using rule 28 (scoped_statement -> for_stmt .)
+    INTEGER         reduce using rule 28 (scoped_statement -> for_stmt .)
+    FLOAT           reduce using rule 28 (scoped_statement -> for_stmt .)
+    LPAREN          reduce using rule 28 (scoped_statement -> for_stmt .)
+    BOOLEAN         reduce using rule 28 (scoped_statement -> for_stmt .)
+    RBRACE          reduce using rule 28 (scoped_statement -> for_stmt .)
 
 
 state 167
 
-    (29) scope_statement -> return . SEMI
+    (29) scoped_statement -> return . SEMI
 
     SEMI            shift and go to state 181
 
@@ -5684,170 +5684,170 @@ state 173
 
 state 174
 
-    (17) scope_statement_list -> scope_statement scope_statement_list .
+    (17) scoped_statement_list -> scoped_statement scoped_statement_list .
 
-    RBRACE          reduce using rule 17 (scope_statement_list -> scope_statement scope_statement_list .)
+    RBRACE          reduce using rule 17 (scoped_statement_list -> scoped_statement scoped_statement_list .)
 
 
 state 175
 
-    (19) scope_statement -> var_assign SEMI .
+    (19) scoped_statement -> var_assign SEMI .
 
-    FINAL           reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    FN              reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    IF              reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    WHILE           reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    FOR             reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    RETURN          reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    ID              reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    STRING          reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    NOT             reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    NULL            reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    PLUS            reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    MINUS           reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    INTEGER         reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    FLOAT           reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    LPAREN          reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    BOOLEAN         reduce using rule 19 (scope_statement -> var_assign SEMI .)
-    RBRACE          reduce using rule 19 (scope_statement -> var_assign SEMI .)
+    FINAL           reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    FN              reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    IF              reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    WHILE           reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    FOR             reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    RETURN          reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    ID              reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    STRING          reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    NOT             reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    NULL            reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    PLUS            reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    MINUS           reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    INTEGER         reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    FLOAT           reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    LPAREN          reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    BOOLEAN         reduce using rule 19 (scoped_statement -> var_assign SEMI .)
+    RBRACE          reduce using rule 19 (scoped_statement -> var_assign SEMI .)
 
 
 state 176
 
-    (20) scope_statement -> final_assign SEMI .
+    (20) scoped_statement -> final_assign SEMI .
 
-    FINAL           reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    FN              reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    IF              reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    WHILE           reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    FOR             reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    RETURN          reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    ID              reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    STRING          reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    NOT             reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    NULL            reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    PLUS            reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    MINUS           reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    INTEGER         reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    FLOAT           reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    LPAREN          reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    BOOLEAN         reduce using rule 20 (scope_statement -> final_assign SEMI .)
-    RBRACE          reduce using rule 20 (scope_statement -> final_assign SEMI .)
+    FINAL           reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    FN              reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    IF              reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    WHILE           reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    FOR             reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    RETURN          reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    ID              reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    STRING          reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    NOT             reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    NULL            reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    PLUS            reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    MINUS           reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    INTEGER         reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    FLOAT           reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    LPAREN          reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    BOOLEAN         reduce using rule 20 (scoped_statement -> final_assign SEMI .)
+    RBRACE          reduce using rule 20 (scoped_statement -> final_assign SEMI .)
 
 
 state 177
 
-    (21) scope_statement -> var_compound_assign SEMI .
+    (21) scoped_statement -> var_compound_assign SEMI .
 
-    FINAL           reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    FN              reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    IF              reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    WHILE           reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    FOR             reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    RETURN          reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    ID              reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    STRING          reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    NOT             reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    NULL            reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    PLUS            reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    MINUS           reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    INTEGER         reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    FLOAT           reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    LPAREN          reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    BOOLEAN         reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
-    RBRACE          reduce using rule 21 (scope_statement -> var_compound_assign SEMI .)
+    FINAL           reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    FN              reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    IF              reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    WHILE           reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    FOR             reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    RETURN          reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    ID              reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    STRING          reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    NOT             reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    NULL            reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    PLUS            reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    MINUS           reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    INTEGER         reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    FLOAT           reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    LPAREN          reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    BOOLEAN         reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
+    RBRACE          reduce using rule 21 (scoped_statement -> var_compound_assign SEMI .)
 
 
 state 178
 
-    (22) scope_statement -> var_auto SEMI .
+    (22) scoped_statement -> var_auto SEMI .
 
-    FINAL           reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    FN              reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    IF              reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    WHILE           reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    FOR             reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    RETURN          reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    ID              reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    STRING          reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    NOT             reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    NULL            reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    PLUS            reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    MINUS           reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    INTEGER         reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    FLOAT           reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    LPAREN          reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    BOOLEAN         reduce using rule 22 (scope_statement -> var_auto SEMI .)
-    RBRACE          reduce using rule 22 (scope_statement -> var_auto SEMI .)
+    FINAL           reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    FN              reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    IF              reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    WHILE           reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    FOR             reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    RETURN          reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    ID              reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    STRING          reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    NOT             reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    NULL            reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    PLUS            reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    MINUS           reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    INTEGER         reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    FLOAT           reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    LPAREN          reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    BOOLEAN         reduce using rule 22 (scoped_statement -> var_auto SEMI .)
+    RBRACE          reduce using rule 22 (scoped_statement -> var_auto SEMI .)
 
 
 state 179
 
-    (23) scope_statement -> expr SEMI .
+    (23) scoped_statement -> expr SEMI .
 
-    FINAL           reduce using rule 23 (scope_statement -> expr SEMI .)
-    FN              reduce using rule 23 (scope_statement -> expr SEMI .)
-    IF              reduce using rule 23 (scope_statement -> expr SEMI .)
-    WHILE           reduce using rule 23 (scope_statement -> expr SEMI .)
-    FOR             reduce using rule 23 (scope_statement -> expr SEMI .)
-    RETURN          reduce using rule 23 (scope_statement -> expr SEMI .)
-    ID              reduce using rule 23 (scope_statement -> expr SEMI .)
-    STRING          reduce using rule 23 (scope_statement -> expr SEMI .)
-    NOT             reduce using rule 23 (scope_statement -> expr SEMI .)
-    NULL            reduce using rule 23 (scope_statement -> expr SEMI .)
-    PLUS            reduce using rule 23 (scope_statement -> expr SEMI .)
-    MINUS           reduce using rule 23 (scope_statement -> expr SEMI .)
-    INTEGER         reduce using rule 23 (scope_statement -> expr SEMI .)
-    FLOAT           reduce using rule 23 (scope_statement -> expr SEMI .)
-    LPAREN          reduce using rule 23 (scope_statement -> expr SEMI .)
-    BOOLEAN         reduce using rule 23 (scope_statement -> expr SEMI .)
-    RBRACE          reduce using rule 23 (scope_statement -> expr SEMI .)
+    FINAL           reduce using rule 23 (scoped_statement -> expr SEMI .)
+    FN              reduce using rule 23 (scoped_statement -> expr SEMI .)
+    IF              reduce using rule 23 (scoped_statement -> expr SEMI .)
+    WHILE           reduce using rule 23 (scoped_statement -> expr SEMI .)
+    FOR             reduce using rule 23 (scoped_statement -> expr SEMI .)
+    RETURN          reduce using rule 23 (scoped_statement -> expr SEMI .)
+    ID              reduce using rule 23 (scoped_statement -> expr SEMI .)
+    STRING          reduce using rule 23 (scoped_statement -> expr SEMI .)
+    NOT             reduce using rule 23 (scoped_statement -> expr SEMI .)
+    NULL            reduce using rule 23 (scoped_statement -> expr SEMI .)
+    PLUS            reduce using rule 23 (scoped_statement -> expr SEMI .)
+    MINUS           reduce using rule 23 (scoped_statement -> expr SEMI .)
+    INTEGER         reduce using rule 23 (scoped_statement -> expr SEMI .)
+    FLOAT           reduce using rule 23 (scoped_statement -> expr SEMI .)
+    LPAREN          reduce using rule 23 (scoped_statement -> expr SEMI .)
+    BOOLEAN         reduce using rule 23 (scoped_statement -> expr SEMI .)
+    RBRACE          reduce using rule 23 (scoped_statement -> expr SEMI .)
 
 
 state 180
 
-    (25) scope_statement -> func_call SEMI .
+    (25) scoped_statement -> func_call SEMI .
 
-    FINAL           reduce using rule 25 (scope_statement -> func_call SEMI .)
-    FN              reduce using rule 25 (scope_statement -> func_call SEMI .)
-    IF              reduce using rule 25 (scope_statement -> func_call SEMI .)
-    WHILE           reduce using rule 25 (scope_statement -> func_call SEMI .)
-    FOR             reduce using rule 25 (scope_statement -> func_call SEMI .)
-    RETURN          reduce using rule 25 (scope_statement -> func_call SEMI .)
-    ID              reduce using rule 25 (scope_statement -> func_call SEMI .)
-    STRING          reduce using rule 25 (scope_statement -> func_call SEMI .)
-    NOT             reduce using rule 25 (scope_statement -> func_call SEMI .)
-    NULL            reduce using rule 25 (scope_statement -> func_call SEMI .)
-    PLUS            reduce using rule 25 (scope_statement -> func_call SEMI .)
-    MINUS           reduce using rule 25 (scope_statement -> func_call SEMI .)
-    INTEGER         reduce using rule 25 (scope_statement -> func_call SEMI .)
-    FLOAT           reduce using rule 25 (scope_statement -> func_call SEMI .)
-    LPAREN          reduce using rule 25 (scope_statement -> func_call SEMI .)
-    BOOLEAN         reduce using rule 25 (scope_statement -> func_call SEMI .)
-    RBRACE          reduce using rule 25 (scope_statement -> func_call SEMI .)
+    FINAL           reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    FN              reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    IF              reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    WHILE           reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    FOR             reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    RETURN          reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    ID              reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    STRING          reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    NOT             reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    NULL            reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    PLUS            reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    MINUS           reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    INTEGER         reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    FLOAT           reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    LPAREN          reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    BOOLEAN         reduce using rule 25 (scoped_statement -> func_call SEMI .)
+    RBRACE          reduce using rule 25 (scoped_statement -> func_call SEMI .)
 
 
 state 181
 
-    (29) scope_statement -> return SEMI .
+    (29) scoped_statement -> return SEMI .
 
-    FINAL           reduce using rule 29 (scope_statement -> return SEMI .)
-    FN              reduce using rule 29 (scope_statement -> return SEMI .)
-    IF              reduce using rule 29 (scope_statement -> return SEMI .)
-    WHILE           reduce using rule 29 (scope_statement -> return SEMI .)
-    FOR             reduce using rule 29 (scope_statement -> return SEMI .)
-    RETURN          reduce using rule 29 (scope_statement -> return SEMI .)
-    ID              reduce using rule 29 (scope_statement -> return SEMI .)
-    STRING          reduce using rule 29 (scope_statement -> return SEMI .)
-    NOT             reduce using rule 29 (scope_statement -> return SEMI .)
-    NULL            reduce using rule 29 (scope_statement -> return SEMI .)
-    PLUS            reduce using rule 29 (scope_statement -> return SEMI .)
-    MINUS           reduce using rule 29 (scope_statement -> return SEMI .)
-    INTEGER         reduce using rule 29 (scope_statement -> return SEMI .)
-    FLOAT           reduce using rule 29 (scope_statement -> return SEMI .)
-    LPAREN          reduce using rule 29 (scope_statement -> return SEMI .)
-    BOOLEAN         reduce using rule 29 (scope_statement -> return SEMI .)
-    RBRACE          reduce using rule 29 (scope_statement -> return SEMI .)
+    FINAL           reduce using rule 29 (scoped_statement -> return SEMI .)
+    FN              reduce using rule 29 (scoped_statement -> return SEMI .)
+    IF              reduce using rule 29 (scoped_statement -> return SEMI .)
+    WHILE           reduce using rule 29 (scoped_statement -> return SEMI .)
+    FOR             reduce using rule 29 (scoped_statement -> return SEMI .)
+    RETURN          reduce using rule 29 (scoped_statement -> return SEMI .)
+    ID              reduce using rule 29 (scoped_statement -> return SEMI .)
+    STRING          reduce using rule 29 (scoped_statement -> return SEMI .)
+    NOT             reduce using rule 29 (scoped_statement -> return SEMI .)
+    NULL            reduce using rule 29 (scoped_statement -> return SEMI .)
+    PLUS            reduce using rule 29 (scoped_statement -> return SEMI .)
+    MINUS           reduce using rule 29 (scoped_statement -> return SEMI .)
+    INTEGER         reduce using rule 29 (scoped_statement -> return SEMI .)
+    FLOAT           reduce using rule 29 (scoped_statement -> return SEMI .)
+    LPAREN          reduce using rule 29 (scoped_statement -> return SEMI .)
+    BOOLEAN         reduce using rule 29 (scoped_statement -> return SEMI .)
+    RBRACE          reduce using rule 29 (scoped_statement -> return SEMI .)
 
 
 state 182
@@ -6851,5 +6851,5 @@ WARNING: reduce/reduce conflict in state 129 resolved using rule (expr -> var)
 WARNING: rejected rule (num_factor -> var) in state 129
 WARNING: reduce/reduce conflict in state 129 resolved using rule (expr -> var)
 WARNING: rejected rule (string_expr -> var) in state 129
-WARNING: reduce/reduce conflict in state 156 resolved using rule (scope_statement_list -> empty)
-WARNING: rejected rule (scope_statement -> empty) in state 156
+WARNING: reduce/reduce conflict in state 156 resolved using rule (scoped_statement_list -> empty)
+WARNING: rejected rule (scoped_statement -> empty) in state 156

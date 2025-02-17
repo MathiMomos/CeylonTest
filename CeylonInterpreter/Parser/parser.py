@@ -74,7 +74,7 @@ class Parser:
     ####
 
     def p_scoped_block(self, p):
-        '''scoped_block : scope_statement_list'''
+        '''scoped_block : scoped_statement_list'''
         p[1].reverse()
         statement_list = p[1]
 
