@@ -1,27 +1,16 @@
 from CeylonInterpreter.Parser.parser import Parser
 from CeylonInterpreter.Semantic.semantic import CeylonSemantic
+from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-final x = 5;
-final y = 6;
-z = 7;
-
-for (asd = 5; x < 10; asd++) {
-
+fn sumar(x, y) {
+    if (true) {
+        return "hola";
+    }
 }
 
-while(y == 6){
-    z+=1;
-}
-if (true) {
-    valorCondicional = true;
-}
-
-fn Sum(x, y) {
-    fg = null;
-}
-
+sumar(23, 45);
 '''
 parser = Parser()
 parser.build()
@@ -29,5 +18,8 @@ ast = parser.test(text)
 
 semantic = CeylonSemantic()
 semantic.visit(ast)
+
+interpreter = Interpreter()
+interpreter.visit(ast)
 #printer = ASTPrinter()
 #printer.print_node(ast)

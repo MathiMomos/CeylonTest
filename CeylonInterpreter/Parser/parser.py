@@ -98,9 +98,9 @@ class Parser:
                             | expr SEMI
                             | func_stmt
                             | func_call SEMI
-                            | if_stmt
-                            | while_stmt
-                            | for_stmt
+                            | scoped_if_stmt
+                            | scoped_while_stmt
+                            | scoped_for_stmt
                             | return SEMI
                             | empty'''
         p[0] = p[1] # None or AST NODE
@@ -197,6 +197,50 @@ class Parser:
         '''else_stmt : ELSE LBRACE block RBRACE'''
         left : Block = p[3]
         p[0] = If(condition=NoOp(), left=left, right=NoOp())
+
+    # scoped structures
+
+    def p_scoped_if_stmt(self, p):
+        '''scoped_if_stmt : IF LPAREN boolean_expr RPAREN LBRACE scoped_block RBRACE scoped_elif_stmt'''
+        condition: BinBooleanOp = p[3]
+        left: Block = p[6]
+        right: If = p[8]
+
+        p[0] = If(left=left, condition=condition, right=right)
+
+    def p_scoped_elif_stmt(self, p):
+        '''scoped_elif_stmt : ELIF LPAREN boolean_expr RPAREN LBRACE scoped_block RBRACE scoped_elif_stmt
+                     | scoped_else_stmt
+                     | empty'''
+        len_rule = len(p)
+
+        if len_rule == 2:
+            p[0] = p[1]
+        else:
+            condition: BinBooleanOp = p[3]
+            left: Block = p[6]
+            right: If = p[8]
+
+            p[0] = If(left=left, condition=condition, right=right)
+
+    def p_scoped_else_stmt(self, p):
+        '''scoped_else_stmt : ELSE LBRACE scoped_block RBRACE'''
+        left : Block = p[3]
+        p[0] = If(condition=NoOp(), left=left, right=NoOp())
+
+    def p_scoped_while_stmt(self, p):
+        '''scoped_while_stmt : WHILE LPAREN boolean_expr RPAREN LBRACE scoped_block RBRACE'''
+        condition : BinBooleanOp = p[3]
+        child : Block = p[6]
+        p[0] = While(condition=condition, child=child)
+
+    def p_scoped_for_stmt(self, p):
+        '''scoped_for_stmt : FOR LPAREN var_assign SEMI boolean_expr SEMI var_auto RPAREN LBRACE scoped_block RBRACE'''
+        init_var : VarAssign = p[3]
+        condition : BinBooleanOp = p[5]
+        auto : VarAuto = p[7]
+        block_node = p[10]
+        p[0] = For(init_var=init_var, condition=condition, auto=auto, block_node=block_node)
 
     #### LOOP RULES
 
@@ -315,7 +359,6 @@ class Parser:
         else:
             node = p[1]
             p[0] = p[1]
-
 
     def p_string_expr(self, p):
         '''string_expr : string_expr CONCAT string_expr

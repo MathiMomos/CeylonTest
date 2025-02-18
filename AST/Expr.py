@@ -1,3 +1,5 @@
+from CeylonInterpreter.AR.Member import Number_type, String_type, Boolean_type, Null_type
+
 class ExprNode:
     pass
 
@@ -10,6 +12,7 @@ class BinOp(ExprNode):
 class Num(ExprNode):
     def __init__(self, value):
         self.value = value
+        self.type = Number_type
 
 class StringConcat(ExprNode):
     def __init__(self, left, right):
@@ -19,13 +22,12 @@ class StringConcat(ExprNode):
 class String(ExprNode):
     def __init__(self, value):
         self.value = value
+        self.type = String_type
 
 class Unary(ExprNode):
     def __init__(self, op, child): # op is a Token instance
         self.op = op
         self.child = child
-
-
 
 class BinBooleanOp(ExprNode):
     def __init__(self, left, op, right): # op is a Token instance
@@ -41,6 +43,7 @@ class UnaryBoolean(ExprNode):
 class Boolean(ExprNode):
     def __init__(self, value):
         self.value = value
+        self.type = Boolean_type
 
 class BinComp(ExprNode):
     def __init__(self, left, op, right): # op is a Token instance
@@ -57,3 +60,4 @@ class Ternary(ExprNode):
 class Null(ExprNode):
     def __init__(self, value):
         self.value = value
+        self.type = Null_type

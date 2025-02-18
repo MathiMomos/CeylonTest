@@ -232,6 +232,9 @@ class CeylonSemantic(NodeVisitor):
         if isinstance(var_symbol, FinalSymbol):
             raise Exception("Final '%s' cannot be reasigned" % var_name)
 
+        if isinstance(var_symbol, FunctionSymbol):
+            raise Exception("Function '%s' cannot be reassigned" % var_name)
+
         self.visit(node.right)
 
         if var_symbol is not None:
