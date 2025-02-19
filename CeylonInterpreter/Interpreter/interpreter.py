@@ -5,6 +5,7 @@ from CeylonInterpreter.AR.Member import Member, Number_type, String_type, Boolea
 from CeylonInterpreter.Tokens.TokenType import TokenType
 from AST.Special import NoOp
 from AST.Function import Return
+from AST.Flow import If
 
 class Interpreter(NodeVisitor):
 
@@ -42,8 +43,8 @@ class Interpreter(NodeVisitor):
         else:
             condition_check, _ = self.visit(node.condition) # gets the truth value
 
-        if not condition_check and node.right: # if the condition is not true
-            self.visit(node.right)
+        if not condition_check: # if the condition is not true
+            self.visit(node.right) # elif or else
             return
 
         # condition true, executes the block
@@ -58,7 +59,7 @@ class Interpreter(NodeVisitor):
         self.call_stack.push(if_ar)
         node_result = self.visit(node.left) # executes the block
 
-        if isinstance(node, Return):
+        if isinstance(node_result, Return):
             print(self.call_stack.pop())
             return node_result
 
@@ -86,7 +87,7 @@ class Interpreter(NodeVisitor):
 
         node_result = self.visit(node.child)
 
-        if isinstance(node, Return):
+        if isinstance(node_result, Return):
             print(self.call_stack.pop())
             return node_result
 
@@ -117,7 +118,7 @@ class Interpreter(NodeVisitor):
 
             node_result = self.visit(node.block_node)
 
-            if isinstance(node, Return):
+            if isinstance(node_result, Return):
                 print(self.call_stack.pop())
                 return node_result
 
@@ -132,10 +133,10 @@ class Interpreter(NodeVisitor):
         for statement in node.statement_list:
             if isinstance(statement, Return):
                 return statement # Node Return
-            node = self.visit(statement)
+            node_ = self.visit(statement)
 
-            if isinstance(node, Return):
-                return node
+            if isinstance(node_, Return):
+                return node_
 
 # PARAMETERS AND ARGUMENTS
 

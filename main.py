@@ -2,13 +2,10 @@ from CeylonInterpreter.Parser.parser import Parser
 from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
+
 text = \
 '''
-for (x = 0; x <= 10; x++) {
-    if (x % 2 == 0) {
-        print(x);
-    }
-}
+x = 5;
 '''
 parser = Parser()
 parser.build()

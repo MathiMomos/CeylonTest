@@ -55,17 +55,19 @@ class CeylonSemantic(NodeVisitor):
         # Entering to the function scope
         self.current_scope = function_scope
 
+        print(self.current_scope)
+
         # Registering the formal params
         self.visit(node.left)
 
         # Getting the list of params for the func_symbol reference
         func_symbol.params = self.current_scope.get_symbols_list()
 
-        # Visiting the statements of the function
-        self.visit(node.right)
-
         # Storing the scoped block for the func_symbol
         func_symbol.scoped_block_node = node.right
+
+        # Visiting the statements of the function
+        self.visit(node.right) # visits the scoped block
 
         print(self.current_scope)
         print("EXITING FUNCTION SCOPE:", func_name)
@@ -75,6 +77,7 @@ class CeylonSemantic(NodeVisitor):
         self.current_scope = self.current_scope.enclosing_scope
 
     def visit_FunctionCall(self, node):
+
         func_symbol = self.current_scope.lookup(node.func_name)
 
         if func_symbol is None:

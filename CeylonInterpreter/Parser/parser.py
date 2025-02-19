@@ -332,6 +332,7 @@ class Parser:
                       | INTEGER
                       | FLOAT
                       | LPAREN num_expr RPAREN
+                      | func_call
                       | var'''
         len_rule = len(p)
 
