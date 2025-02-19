@@ -224,6 +224,9 @@ class CeylonSemantic(NodeVisitor):
         self.visit(node.left)
         self.visit(node.right)
 
+    def visit_Print(self, node):
+        self.visit(node.child)
+
     def visit_VarAssign(self, node):
         var_name = node.left.var_name
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope

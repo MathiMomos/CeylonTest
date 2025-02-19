@@ -62,10 +62,10 @@ class Parser:
                      | var_auto SEMI
                      | expr SEMI
                      | func_stmt
-                     | func_call SEMI
                      | if_stmt
                      | while_stmt
                      | for_stmt
+                     | print_stmt SEMI
                      | empty'''
         p[0] = p[1] # None or AST NODE
 
@@ -97,10 +97,10 @@ class Parser:
                             | var_auto SEMI
                             | expr SEMI
                             | func_stmt
-                            | func_call SEMI
                             | scoped_if_stmt
                             | scoped_while_stmt
                             | scoped_for_stmt
+                            | print_stmt SEMI
                             | return SEMI
                             | empty'''
         p[0] = p[1] # None or AST NODE
@@ -138,12 +138,14 @@ class Parser:
     def p_non_empty_arguments_list(self, p):
         '''non_empty_arguments_list : expr COMMA non_empty_arguments_list
                                     | expr'''  # <--- Cambio aquí
-        if len(p) == 2:
-            p[0] = p[1]  # Un solo argumento
-        else:
+        len_rule = len(p)
+
+        if len_rule == 4:
             left = p[1]
-            right: Argument = p[3]  # Ahora garantizamos que right nunca será None
+            right = p[3]
             p[0] = Argument(left=left, right=right)
+        else:
+            p[0] = Argument(left=p[1], right=NoOp())
 
     def p_parameters_list(self, p):
         '''parameters_list : non_empty_parameters_list
@@ -242,6 +244,12 @@ class Parser:
         block_node = p[10]
         p[0] = For(init_var=init_var, condition=condition, auto=auto, block_node=block_node)
 
+    #### PRINT RULES
+
+    def p_print_stmt(self, p):
+        '''print_stmt : PRINT LPAREN expr RPAREN'''
+        p[0] = Print(child=p[3])
+
     #### LOOP RULES
 
     # WHILE RULES
@@ -312,7 +320,8 @@ class Parser:
                 | boolean_expr
                 | null_expr
                 | ternary_expr
-                | var'''
+                | var
+                | func_call'''
         p[0] = p[1]
 
     #### ARITHMETIC RULES|

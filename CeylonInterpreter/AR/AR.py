@@ -14,6 +14,7 @@ class AR:
         self.nesting_level = nesting_level
         self.members = {}
         self.enclosing_ar = enclosing_ar
+        self.returning_value = None
 
     # dictlike
     def __setitem__(self, key, member): # key is member name

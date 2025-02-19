@@ -4,6 +4,7 @@ from CeylonInterpreter.AR.AR import AR, ART
 from CeylonInterpreter.AR.Member import Member, Number_type, String_type, Boolean_type, Null_type
 from CeylonInterpreter.Tokens.TokenType import TokenType
 from AST.Special import NoOp
+from AST.Function import Return
 
 class Interpreter(NodeVisitor):
 
@@ -20,7 +21,7 @@ class Interpreter(NodeVisitor):
             enclosing_ar=None
         )
 
-        self.call_stack.push(program_ar) # adds the execution of the program to the CS
+        self.call_stack.push(program_ar) # adds the execution of the program to the CALL_STACK
         self.visit(node.block_node) # visits the program's body
 
         print(self.call_stack.peek())
@@ -55,7 +56,11 @@ class Interpreter(NodeVisitor):
         )
 
         self.call_stack.push(if_ar)
-        self.visit(node.left) # executes the block
+        node = self.visit(node.left) # executes the block
+
+        if isinstance(node, Return):
+            print(self.call_stack.pop())
+            return node
 
         print(self.call_stack.peek())
 
@@ -68,7 +73,7 @@ class Interpreter(NodeVisitor):
         if not condition_check:
             return
 
-        current_ar = self.call_stack.peek()
+        # current_ar = self.call_stack.peek()
 
         while_ar = AR(
             name="WHILE",
@@ -79,7 +84,12 @@ class Interpreter(NodeVisitor):
 
         self.call_stack.push(while_ar)
 
-        self.visit(node.child)
+        node = self.visit(node.child)
+
+        if isinstance(node, Return):
+            print(self.call_stack.pop())
+            return node
+
         self.visit(node)
 
         print(self.call_stack.peek())
@@ -105,7 +115,12 @@ class Interpreter(NodeVisitor):
                 self.call_stack.pop()
                 return
 
-            self.visit(node.block_node)
+            node = self.visit(node.block_node)
+
+            if isinstance(node, Return):
+                print(self.call_stack.pop())
+                return node
+
             self.visit(node.auto)
 
 
@@ -115,7 +130,12 @@ class Interpreter(NodeVisitor):
 
     def visit_ScopedBlock(self, node):
         for statement in node.statement_list:
-            self.visit(statement)
+            if isinstance(statement, Return):
+                return statement # Node Return
+            node = self.visit(statement)
+
+            if isinstance(node, Return):
+                return node
 
 # PARAMETERS AND ARGUMENTS
 
@@ -124,8 +144,6 @@ class Interpreter(NodeVisitor):
 
     def visit_FunctionCall(self, node):
         func_symbol = node.func_symbol
-
-        arguments = None
 
         if isinstance(node.child, NoOp):
             arguments = []
@@ -139,6 +157,12 @@ class Interpreter(NodeVisitor):
             enclosing_ar=self.call_stack.peek()
         )
 
+        # Detects a runtime error, the number of arguments must to be the same of the number of formal parameters
+
+        if len(arguments) != len(func_symbol.params):
+            raise Exception("the number of arguments must to be the same of the number of formal parameters in the function call %s" % func_symbol.name)
+
+        # Arguments processing
         for parameter, argument in zip(func_symbol.params, arguments):
             member = Member(
                 name=parameter.name,
@@ -150,28 +174,41 @@ class Interpreter(NodeVisitor):
             func_call_ar[member.name] = member
 
         self.call_stack.push(func_call_ar)
-        self.visit(func_symbol.scoped_block_node)
 
-        print(self.call_stack.peek())
+        return_node = self.visit(func_symbol.scoped_block_node)
+        # func_call_ar.returning_value = returning_value
 
-        self.call_stack.pop()
+        if isinstance(return_node, Return):
+            returning_value = self.visit(return_node)
+        else:
+            returning_value = ("null", Null_type)
+
+        print(self.call_stack.pop())
+
+        return returning_value
 
     def visit_Argument(self, node):
+        arguments = []
         value, type_ = self.visit(node.left)
+        tuple_arg = (value, type_)
+        arguments.append(tuple_arg)
 
         if isinstance(node.right, NoOp):
-            return []
+            return arguments
 
-        right_result = self.visit(node.right)
+        arguments.extend(self.visit(node.right))
 
-        if not isinstance(right_result, list):
-            right_result = [right_result]
-
-        return [(value, type_)] + right_result
+        return arguments
 
     def visit_Return(self, node):
-        pass
+        return self.visit(node.child)
         # later
+
+# PRINT
+
+    def visit_Print(self, node):
+        value, type_ = self.visit(node.child)
+        print(value)
 
 # VARIABLES AND CONSTANTS
 
@@ -185,7 +222,6 @@ class Interpreter(NodeVisitor):
 
         value = var_member.value
         type_ = var_member.member_type
-
         return value, type_
 
     def visit_VarAssign(self, node):
@@ -305,26 +341,23 @@ class Interpreter(NodeVisitor):
         if right_type.name != type_name:
             raise Exception("Type %s is not compatible with binary arithmetic operation." % type_name)
 
-        # que tal si nomas ponemos en un solo exception que ambos operandones tienen que ser numeros y luego los tipos dados al costao?
-        # raise Exception("%s and %s must be numbers for binary arithmetic operations. Given %s, %s
-
         value = 0
 
-        if op == TokenType.PLUS:
+        if op == TokenType.PLUS.value:
             value = left_value + right_value
-        elif op == TokenType.MINUS:
+        elif op == TokenType.MINUS.value:
             value = left_value - right_value
-        elif op == TokenType.TIMES:
+        elif op == TokenType.TIMES.value:
             value = left_value * right_value
-        elif op == TokenType.DIVIDE:
+        elif op == TokenType.DIVIDE.value:
             if right_value == 0:
                 raise Exception("Zero division error")
             value = left_value / right_value
-        elif op == TokenType.POWER:
+        elif op == TokenType.POWER.value:
             value = left_value ** right_value
-        elif op == TokenType.MODULO:
+        elif op == TokenType.MODULO.value:
             value = left_value % right_value
-        elif op == TokenType.INT_DIVIDE:
+        elif op == TokenType.INT_DIVIDE.value:
             if right_value == 0:
                 raise Exception("Zero division error")
             value = left_value // right_value
@@ -365,9 +398,9 @@ class Interpreter(NodeVisitor):
 
         value = False
 
-        if op == TokenType.AND:
+        if op == TokenType.AND.value:
             value = left_value & right_value
-        elif op == TokenType.OR:
+        elif op == TokenType.OR.value:
             value = left_value | right_value
 
         return value, type_
@@ -383,17 +416,17 @@ class Interpreter(NodeVisitor):
 
         op = node.op.value
 
-        if op == TokenType.EQ:
+        if op == TokenType.EQ.value:
             value = left_value == right_value
-        elif op == TokenType.NE:
+        elif op == TokenType.NE.value:
             value = left_value != right_value
-        elif op == TokenType.LT:
+        elif op == TokenType.LT.value:
             value = left_value < right_value
-        elif op == TokenType.GT:
+        elif op == TokenType.GT.value:
             value = left_value > right_value
-        elif op == TokenType.LE:
+        elif op == TokenType.LE.value:
             value = left_value <= right_value
-        elif op == TokenType.GE:
+        elif op == TokenType.GE.value:
             value = left_value >= right_value
 
         return value, type_
@@ -407,7 +440,7 @@ class Interpreter(NodeVisitor):
         if type_.name != Number_type.name:
             raise Exception("Type %s is not compatible with unary arithmetic operation." % type_.name)
 
-        if op == TokenType.PLUS:
+        if op == TokenType.PLUS.value:
             return +value, type_
         return -value, type_
 

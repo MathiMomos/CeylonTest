@@ -4,13 +4,15 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-fn sumar(x, y) {
-    if (true) {
-        return "hola";
-    }
+x = false;
+
+if (x) {
+    x = 25;
+} else {
+    x = 69;
 }
 
-sumar(23, 45);
+print(x);
 '''
 parser = Parser()
 parser.build()

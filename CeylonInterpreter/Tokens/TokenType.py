@@ -24,7 +24,7 @@ class TokenType (Enum):
     INCREMENT = "++"
     DECREMENT = "--"
     
-    # RESERVED WORDS
+    # RESERVED WORDS (WARNING: MAINTAIN THE ORDER)
     FINAL = 'final'
     IF = 'if'
     ELIF = 'elif'
@@ -39,6 +39,7 @@ class TokenType (Enum):
     IN = "in"
     TRUE = "true"
     FALSE = "false"
+    PRINT = "print"
     NULL = "null"
     
     # LOGIC OPTRS
