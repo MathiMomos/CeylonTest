@@ -4,15 +4,11 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-x = false;
-
-if (x) {
-    x = 25;
-} else {
-    x = 69;
+for (x = 0; x <= 10; x++) {
+    if (x % 2 == 0) {
+        print(x);
+    }
 }
-
-print(x);
 '''
 parser = Parser()
 parser.build()

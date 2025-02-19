@@ -56,11 +56,11 @@ class Interpreter(NodeVisitor):
         )
 
         self.call_stack.push(if_ar)
-        node = self.visit(node.left) # executes the block
+        node_result = self.visit(node.left) # executes the block
 
         if isinstance(node, Return):
             print(self.call_stack.pop())
-            return node
+            return node_result
 
         print(self.call_stack.peek())
 
@@ -84,11 +84,11 @@ class Interpreter(NodeVisitor):
 
         self.call_stack.push(while_ar)
 
-        node = self.visit(node.child)
+        node_result = self.visit(node.child)
 
         if isinstance(node, Return):
             print(self.call_stack.pop())
-            return node
+            return node_result
 
         self.visit(node)
 
@@ -115,11 +115,11 @@ class Interpreter(NodeVisitor):
                 self.call_stack.pop()
                 return
 
-            node = self.visit(node.block_node)
+            node_result = self.visit(node.block_node)
 
             if isinstance(node, Return):
                 print(self.call_stack.pop())
-                return node
+                return node_result
 
             self.visit(node.auto)
 
@@ -278,18 +278,18 @@ class Interpreter(NodeVisitor):
     def visit_VarAuto(self, node):
         _, type_ = self.visit(node.child)
 
-        var_name = node.left.var_name
+        var_name = node.child.var_name
         current_ar = self.call_stack.peek()
         var_member = current_ar.get(var_name)
 
-        if type_ != Number_type.name:
-            raise Exception(f"Type {type_} is not number. Self operations is not allowed.")
+        if type_.name != Number_type.name:
+            raise Exception(f"Type {type_.name} is not number. Self operations is not allowed.")
 
         op = node.op.value
 
-        if op == TokenType.INCREMENT:
+        if op == TokenType.INCREMENT.value:
             var_member.value += 1
-        elif op == TokenType.DECREMENT:
+        elif op == TokenType.DECREMENT.value:
             var_member.value -=1
 
     def visit_VarCompoundAssign(self, node):

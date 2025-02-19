@@ -356,6 +356,7 @@ class Parser:
                     | num_expr DIVIDE num_expr
                     | num_expr INT_DIVIDE num_expr
                     | num_expr POWER num_expr
+                    | num_expr MODULO num_expr
                     | num_factor'''
         len_rule = len(p)
 
