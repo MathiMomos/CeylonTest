@@ -6,6 +6,7 @@ class CeylonLexer:
 
     # Expresiones regulares para operadores
     # Operadores de asignación
+
     def t_POWER_ASSIGN(self, t):
         r'\*\*='
         t.value = Token(TokenType.POWER_ASSIGN.name, TokenType.POWER_ASSIGN.value)
@@ -39,6 +40,11 @@ class CeylonLexer:
     def t_INT_DIVIDE_ASSIGN(self, t):
         r'//='
         t.value = Token(TokenType.INT_DIVIDE_ASSIGN.name, TokenType.INT_DIVIDE_ASSIGN.value)
+        return t
+
+    def t_CONCAT_ASSIGN(self, t):
+        r'\.\.\.='
+        t.value = Token(TokenType.CONCAT_ASSIGN.name, TokenType.CONCAT_ASSIGN.value)
         return t
 
     def t_INCREMENT(self, t):
@@ -143,6 +149,12 @@ class CeylonLexer:
     def t_TERNARY_C(self, t):
         r':'
         t.value = Token(TokenType.TERNARY_C.name, TokenType.TERNARY_C.value)
+        return t
+
+    # Operador de concatenación
+    def t_CONCAT(self, t):
+        r'\.\.\.'
+        t.value = Token(TokenType.CONCAT.name, TokenType.CONCAT.value)
         return t
 
     # Operador de asignación básico

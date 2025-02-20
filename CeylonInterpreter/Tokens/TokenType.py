@@ -21,6 +21,7 @@ class TokenType (Enum):
     POWER_ASSIGN = "**="
     MODULO_ASSIGN = "%="
     INT_DIVIDE_ASSIGN = "//="
+    CONCAT_ASSIGN = "...="
     INCREMENT = "++"
     DECREMENT = "--"
     

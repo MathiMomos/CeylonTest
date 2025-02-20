@@ -5,16 +5,12 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-fn factorial(n) {
-    if (n == 0) {
-        return 1;
-    } else {
-        return n * factorial(n - 1);
-    }
-}
+saludo = "Hola ";
+saludo ...= "Mundo";
+saludo ...= "!";
 
-x = factorial(6);
-print(x);
+print(saludo);
+
 '''
 
 parser = Parser()

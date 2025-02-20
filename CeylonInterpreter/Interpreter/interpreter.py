@@ -366,6 +366,25 @@ class Interpreter(NodeVisitor):
         elif op == TokenType.INT_DIVIDE_ASSIGN:
             var_member.value //= value
 
+    def visit_ConcatAssign(self, node):
+        _, left_type = self.visit(node.left)
+        right_value, _ = self.visit(node.right)
+
+        var_name = node.left.var_name
+        current_ar = self.call_stack.peek()
+        var_member = current_ar.get(var_name)
+
+        type_ = String_type
+        type_name = type_.name
+
+        if left_type.name != type_name:
+            raise Exception(f"Type {type_} is not string. Self operations is not allowed.")
+
+        if var_member.var_type == "Final":
+            raise Exception(f"Final {var_name} cannot be reassigned.")
+
+        var_member.value += right_value
+
 # OPERATIONS
 
     def visit_BinOp(self, node):

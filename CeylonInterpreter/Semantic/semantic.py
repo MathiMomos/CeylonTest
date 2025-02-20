@@ -299,6 +299,18 @@ class CeylonSemantic(NodeVisitor):
 
         self.visit(node.right)
 
+    def visit_ConcatAssign(self, node):
+        var_name = node.left.var_name
+        var_symbol = self.current_scope.lookup(var_name) # Finds at the scope and in the enclosing scope
+
+        if var_symbol is None:
+            raise Exception("Variable '%s' is not defined" % var_name)
+
+        if isinstance(var_symbol, FinalSymbol):
+            raise Exception("Final '%s' cannot be reassigned" % var_name)
+
+        self.visit(node.right)
+
     def visit_Return(self, node):
         self.visit(node.child)
 

@@ -59,6 +59,7 @@ class Parser:
         '''statement : var_assign SEMI
                      | final_assign SEMI
                      | var_compound_assign SEMI
+                     | concat_assign SEMI
                      | var_auto SEMI
                      | expr SEMI
                      | func_stmt
@@ -94,6 +95,7 @@ class Parser:
         '''scoped_statement : var_assign SEMI
                             | final_assign SEMI
                             | var_compound_assign SEMI
+                            | concat_assign SEMI
                             | var_auto SEMI
                             | expr SEMI
                             | func_stmt
@@ -302,6 +304,12 @@ class Parser:
         op : Token = p[2]
         right = p[3]
         p[0] = VarCompoundAssign(left=left, op=op, right=right)
+
+    def p_concat_assign(self, p):
+        '''concat_assign : var CONCAT_ASSIGN string_expr'''
+        left : Var = p[1]
+        right = p[3]
+        p[0] = ConcatAssign(left=left, right=right)
 
     def p_var_auto(self, p):
         '''var_auto : var INCREMENT

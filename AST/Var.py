@@ -25,3 +25,8 @@ class VarCompoundAssign(VarNode):
         self.left = left
         self.op = op
         self.right = right
+
+class ConcatAssign(VarNode):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
