@@ -5,7 +5,6 @@ from CeylonInterpreter.AR.Member import Member, Number_type, String_type, Boolea
 from CeylonInterpreter.Tokens.TokenType import TokenType
 from AST.Special import NoOp
 from AST.Function import Return
-from AST.Flow import If
 
 class Interpreter(NodeVisitor):
 
@@ -29,26 +28,32 @@ class Interpreter(NodeVisitor):
 
         self.call_stack.pop() # end with the program
 
-# ESTRUCTURES
+# STRUCTURES
 
     def visit_FunctionStmt(self, node):
         pass
 
     def visit_If(self, node):
 
-        condition_check = False
+        # Checking if the condition is true or false
 
+        # Checks if the actual structure is else
         if isinstance(node.condition, NoOp):
             condition_check = True # initial
+
+        # The actual structure is if or elif, checks the condition visiting the BinBooleanOp node
         else:
             condition_check, _ = self.visit(node.condition) # gets the truth value
 
+        # If the condition of the actual conditional structure is false, then visits the next
+        # and returns the return node (if exists)
         if not condition_check: # if the condition is not true
-            self.visit(node.right) # elif or else
-            return
+            return_ = self.visit(node.right) # Maybe return a tuple with the results of the return statement
+            return return_ # return_ can be None, no problem
 
-        # condition true, executes the block
+        # The actual if, elif or else has the condition true
 
+        # Creates the corresponding AR of the IF
         if_ar = AR(
             name="IF",
             ar_type=ART.IF,
@@ -56,26 +61,28 @@ class Interpreter(NodeVisitor):
             enclosing_ar=self.call_stack.peek()
         )
 
+        # Adds the AR to the call_stack
         self.call_stack.push(if_ar)
-        node_result = self.visit(node.left) # executes the block
 
-        if isinstance(node_result, Return):
+        # Executes the block or scoped block
+        result_ = self.visit(node.left) # If returning something, must be a tuple with the data result of the Return node evaluated
+
+        if result_:
             print(self.call_stack.pop())
-            return node_result
+            return result_
 
-        print(self.call_stack.peek())
-
-        self.call_stack.pop()
+        print(self.call_stack.pop())
 
 
     def visit_While(self, node):
+        # Gets the resolution of the condition (true or false)
         condition_check, _ = self.visit(node.condition)
 
+        # If the condition is false, then the While loop is ignored (this is the first checking)
         if not condition_check:
             return
 
-        # current_ar = self.call_stack.peek()
-
+        # Creates the AR for the While loop
         while_ar = AR(
             name="WHILE",
             ar_type=ART.WHILE,
@@ -83,21 +90,29 @@ class Interpreter(NodeVisitor):
             enclosing_ar=self.call_stack.peek()
         )
 
+        # Push the While AR to the call stack
         self.call_stack.push(while_ar)
 
-        node_result = self.visit(node.child)
+        # result_ is the possibly result of a Return execution inside the While loop. Can be None or a tuple with
+        # the data
+        result_ = self.visit(node.child) # visits the scoped block because the condition check still true
 
-        if isinstance(node_result, Return):
-            print(self.call_stack.pop())
-            return node_result
+        # Checks if the result is not none
+        if result_:
+            print(self.call_stack.pop()) # Pops the While AR
+            return result_ # returns the tuple of the return data
 
-        self.visit(node)
+        result_ = self.visit(node) # visits the While node again, the While is recursive this is the reason for the double evaluation of the result_
 
-        print(self.call_stack.peek())
+        # Checks if the result is not none
+        if result_:
+            print(self.call_stack.pop())  # Pops the While AR
+            return result_ # returns the tuple of the return data
 
-        self.call_stack.pop()
+        print(self.call_stack.pop()) # Pops and implicitly returns None
 
     def visit_For(self, node):
+        # Creates the For AR because it needs to init the var inside
         ar_for = AR(
             name="FOR",
             ar_type=ART.FOR,
@@ -105,38 +120,53 @@ class Interpreter(NodeVisitor):
             enclosing_ar=self.call_stack.peek()
         )
 
+        # Adds the For AR to the call stack
         self.call_stack.push(ar_for)
+
+        # Creates the init var for the For AR
         self.visit(node.init_var)
 
+        # Executes the condition check, the block execution and the auto operation until the condition check makes false
         while True:
-            condition_check, _ = self.visit(node.condition)
+            condition_check, _ = self.visit(node.condition) # Executes the condition check
 
+            # Checking the condition
+
+            # Is the condition is false
             if not condition_check:
-                print(self.call_stack.peek())
-                self.call_stack.pop()
-                return
+                print(self.call_stack.pop()) # Stops the For loop
+                return # Ends the function and return None
 
-            node_result = self.visit(node.block_node)
+            result_ = self.visit(node.block_node) # In the scoped_block node can exist a Return node
 
-            if isinstance(node_result, Return):
-                print(self.call_stack.pop())
-                return node_result
+            # If the result is not None
+            if result_:
+                print(self.call_stack.pop()) # Stops the For loop
+                return result_ # Return the data of the internal Return
 
-            self.visit(node.auto)
+            self.visit(node.auto) # Do the auto operation
 
 
     def visit_Block(self, node):
+        # No return statement available, very simple statement_list traversal
         for statement in node.statement_list:
             self.visit(statement)
 
     def visit_ScopedBlock(self, node):
         for statement in node.statement_list:
-            if isinstance(statement, Return):
-                return statement # Node Return
-            node_ = self.visit(statement)
 
-            if isinstance(node_, Return):
-                return node_
+            # if the actual statement in the statement_list traversal is a Return, stops all
+            if isinstance(statement, Return):
+                # runs the Return node in the actual call stack
+                return self.visit(statement)
+
+            # result_ is the possibly result of a Return node evaluation
+            result_ = self.visit(statement) # The statement can be an If, While or For structure
+
+            # checks if the result is not None (has something to return), if not
+            # continues with the statement_list traversal
+            if result_:
+                return result_
 
 # PARAMETERS AND ARGUMENTS
 
@@ -144,13 +174,21 @@ class Interpreter(NodeVisitor):
         pass
 
     def visit_FunctionCall(self, node):
+
+        # Gets the func_symbol at the FunctionCall node (Assigned in the semantic analysis)
         func_symbol = node.func_symbol
 
+        # Getting the arguments
+
+        # Is the child of the node is an instance of NoOp, then the function call has no arguments
         if isinstance(node.child, NoOp):
             arguments = []
+
+        # The only possibility here is that node.child has an instance of Argument, then visits that node
         else:
             arguments = self.visit(node.child)
 
+        # Creates the AR of the function call
         func_call_ar = AR(
             name="FUNC_CALL " + node.func_name,
             ar_type=ART.FUNCTION,
@@ -163,7 +201,7 @@ class Interpreter(NodeVisitor):
         if len(arguments) != len(func_symbol.params):
             raise Exception("the number of arguments must to be the same of the number of formal parameters in the function call %s" % func_symbol.name)
 
-        # Arguments processing
+        # Arguments processing by zipping with the formal parameters of the function
         for parameter, argument in zip(func_symbol.params, arguments):
             member = Member(
                 name=parameter.name,
@@ -174,19 +212,20 @@ class Interpreter(NodeVisitor):
             member.var_type = "Var"
             func_call_ar[member.name] = member
 
+        # Pushing the function_call AR to the call stack
         self.call_stack.push(func_call_ar)
 
-        return_node = self.visit(func_symbol.scoped_block_node)
-        # func_call_ar.returning_value = returning_value
+        # While visiting the ScopedBlock of the function symbol, expects or not a result (Return evaluation) from inside
+        result_ = self.visit(func_symbol.scoped_block_node) # if no return statement, then result_ will be None
 
-        if isinstance(return_node, Return):
-            returning_value = self.visit(return_node)
+        if result_:
+            returning_value = result_ # don't worry, is a tuple in the same way below
         else:
-            returning_value = ("null", Null_type)
+            returning_value = ("null", Null_type) # the function doesn't return anything, this is the default value
 
         print(self.call_stack.pop())
 
-        return returning_value
+        return returning_value # returning the tuple, this is it because the function call is an expression too
 
     def visit_Argument(self, node):
         arguments = []
@@ -202,7 +241,9 @@ class Interpreter(NodeVisitor):
         return arguments
 
     def visit_Return(self, node):
-        return self.visit(node.child)
+        value, type_ = self.visit(node.child)
+
+        return value, type_
         # later
 
 # PRINT

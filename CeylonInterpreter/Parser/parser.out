@@ -4,6 +4,7 @@ Unused terminals:
 
     CASE
     CLASS
+    CONCAT_ASSIGN
     DOT
     FALSE
     FSTRING
@@ -136,6 +137,7 @@ CASE                 :
 CLASS                : 
 COMMA                : 36 40
 CONCAT               : 91
+CONCAT_ASSIGN        : 
 DECREMENT            : 68
 DIVIDE               : 86
 DIVIDE_ASSIGN        : 63
