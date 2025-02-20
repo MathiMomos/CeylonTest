@@ -5,11 +5,10 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-saludo = "Hola ";
-saludo ...= "Mundo";
-saludo ...= "!";
-
-print(saludo);
+a = -1;
+if (a != 2) {
+    print("hola");
+}
 
 '''
 

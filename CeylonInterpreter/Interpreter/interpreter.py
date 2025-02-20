@@ -335,13 +335,13 @@ class Interpreter(NodeVisitor):
             var_member.value -=1
 
     def visit_VarCompoundAssign(self, node):
-        _, type_ = self.visit(node.child)
+        _, type_ = self.visit(node.left)
 
         var_name = node.left.var_name
         current_ar = self.call_stack.peek()
         var_member = current_ar.get(var_name)
 
-        if type_ != Number_type.name:
+        if type_.name != Number_type.name:
             raise Exception(f"Type {type_} is not number. Self operations is not allowed.")
 
         if var_member.var_type == "Final":
