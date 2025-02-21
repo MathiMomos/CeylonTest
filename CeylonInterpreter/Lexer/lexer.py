@@ -41,6 +41,11 @@ class CeylonLexer:
         t.value = Token(TokenType.INT_DIVIDE_ASSIGN.name, TokenType.INT_DIVIDE_ASSIGN.value)
         return t
 
+    def t_CONCAT_ASSIGN(self, t):
+        r'\.\.\.='
+        t.value = Token(TokenType.CONCAT_ASSIGN.name, TokenType.CONCAT_ASSIGN.value)
+        return t
+
     def t_INCREMENT(self, t):
         r'\+\+'
         t.value = Token(TokenType.INCREMENT.name, TokenType.INCREMENT.value)
@@ -85,6 +90,12 @@ class CeylonLexer:
     def t_MODULO(self, t):
         r'%'
         t.value = Token(TokenType.MODULO.name, TokenType.MODULO.value)
+        return t
+
+        # Operador de concatenación
+    def t_CONCAT(self, t):
+        r'\.\.\.'
+        t.value = Token(TokenType.CONCAT.name, TokenType.CONCAT.value)
         return t
 
         # Operadores de comparación
@@ -185,11 +196,6 @@ class CeylonLexer:
     def t_COMMA(self, t):
         r','
         t.value = Token(TokenType.COMMA.name, TokenType.COMMA.value)
-        return t
-
-    def t_CONCAT_ASSIGN(self, t):
-        r'\.\.\.='
-        t.value = Token(TokenType.CONCAT_ASSIGN.name, TokenType.CONCAT_ASSIGN.value)
         return t
 
     def t_DOT(self, t):

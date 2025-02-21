@@ -5,11 +5,28 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-a = -1;
-if (a != 2) {
-    print("hola");
-}
+cond = true;
 
+while (cond) {
+    print("=== Menú Principal ===");
+    print("1. Saludar");
+    print("2. Mostrar número favorito");
+    print("3. Salir");
+    print("Selecciona una opción: ");
+
+    scan(opcion);
+
+    if (opcion == "1") {
+        print("¡Hola! ¿Cómo estás?");
+    } elif (opcion == "2") {
+        print("Mi número favorito es el 7.");
+    } elif (opcion == "3") {
+        print("Saliendo del programa...");
+        cond = false;
+    } else {
+        print("Opción no válida. Intenta de nuevo.");
+    }
+}
 '''
 
 parser = Parser()
