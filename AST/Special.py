@@ -6,5 +6,6 @@ class Print:
         self.child = child
 
 class Scan:
-    def __init__(self, child):
+    def __init__(self ,type, child):
+        self.type = type
         self.child = child

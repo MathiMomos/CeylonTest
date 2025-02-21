@@ -5,7 +5,17 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
+x = 10;
 
+fn doSomething() {
+    fn doInnerSomething() {
+        print(x);
+    }
+    
+    doInnerSomething();
+}
+
+doSomething();
 '''
 
 parser = Parser()

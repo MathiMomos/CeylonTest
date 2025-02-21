@@ -305,8 +305,9 @@ class Parser:
         p[0] = Print(child=p[3])
 
     def p_scan_stmt(self, p):
-        '''scan_stmt : SCAN LPAREN var RPAREN'''
-        p[0] = Scan(child=p[3])
+        '''scan_stmt : SCANSTR LPAREN var RPAREN
+                     | SCANNUM LPAREN var RPAREN'''
+        p[0] = Scan(type=p[1] ,child=p[3])
 
     #### LOOP RULES
 
@@ -361,18 +362,18 @@ class Parser:
         right = p[3]
         p[0] = VarCompoundAssign(left=left, op=op, right=right)
 
-    def p_concat_assign(self, p):
-        '''concat_assign : var CONCAT_ASSIGN string_expr'''
-        left : Var = p[1]
-        right = p[3]
-        p[0] = ConcatAssign(left=left, right=right)
-
     def p_var_auto(self, p):
         '''var_auto : var INCREMENT
                     | var DECREMENT'''
         op : Token = p[2]
         child : Var = p[1]
         p[0] = VarAuto(op=op, child=child)
+
+    def p_concat_assign(self, p):
+        '''concat_assign : var CONCAT_ASSIGN string_expr'''
+        left : Var = p[1]
+        right = p[3]
+        p[0] = ConcatAssign(left=left, right=right)
 
     ####
     #### EXPR RULES

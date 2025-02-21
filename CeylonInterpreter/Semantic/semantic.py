@@ -278,7 +278,6 @@ class CeylonSemantic(NodeVisitor):
         # Verifies if the symbol is currently saved
         var_symbol = self.current_scope.lookup(var_name, current_scope_only=True)
 
-
         if var_symbol is not None:
             return
 

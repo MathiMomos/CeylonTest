@@ -42,9 +42,10 @@ class TokenType (Enum):
     TRUE = "true"
     FALSE = "false"
     PRINT = "print"
-    SCAN = "scan"
+    SCANSTR = "scanstr"
+    SCANNUM = "scannum"
     NULL = "null"
-    
+
     # LOGIC OPTRS
     AND = "&&"
     OR = "||"
