@@ -5,14 +5,26 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-x = 5;
+cond = true;
 
-switch (x) {
-    case 5 {
-        print("x es 5");
-    }
-    case 10 {
-        print("x es 10");
+while (cond) {
+    print("=== Menú Principal ===");
+    print("1. Saludar");
+    print("2. Mostrar número favorito");
+    print("3. Salir");
+    print("Selecciona una opción: ");
+
+    scan(opcion);
+
+    if (opcion == "1") {
+        print("¡Hola! ¿Cómo estás?");
+    } elif (opcion == "2") {
+        print("Mi número favorito es el 7.");
+    } elif (opcion == "3") {
+        print("Saliendo del programa...");
+        cond = false;
+    } else {
+        print("Opción no válida. Intenta de nuevo.");
     }
 }
 '''
@@ -26,6 +38,5 @@ semantic.visit(ast)
 
 interpreter = Interpreter()
 interpreter.visit(ast)
-
 #printer = ASTPrinter()
 #printer.print_node(ast)

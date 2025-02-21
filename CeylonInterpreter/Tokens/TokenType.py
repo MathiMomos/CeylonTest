@@ -42,6 +42,7 @@ class TokenType (Enum):
     TRUE = "true"
     FALSE = "false"
     PRINT = "print"
+    SCAN = "scan"
     NULL = "null"
     
     # LOGIC OPTRS

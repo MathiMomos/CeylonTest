@@ -68,6 +68,7 @@ class Parser:
                      | while_stmt
                      | for_stmt
                      | print_stmt SEMI
+                     | scan_stmt SEMI
                      | empty'''
         p[0] = p[1] # None or AST NODE
 
@@ -105,6 +106,7 @@ class Parser:
                             | scoped_while_stmt
                             | scoped_for_stmt
                             | print_stmt SEMI
+                            | scan_stmt SEMI
                             | return SEMI
                             | empty'''
         p[0] = p[1] # None or AST NODE
@@ -296,11 +298,15 @@ class Parser:
         block_node = p[10]
         p[0] = For(init_var=init_var, condition=condition, auto=auto, block_node=block_node)
 
-    #### PRINT RULES
+    #### SPECIAL RULES
 
     def p_print_stmt(self, p):
         '''print_stmt : PRINT LPAREN expr RPAREN'''
         p[0] = Print(child=p[3])
+
+    def p_scan_stmt(self, p):
+        '''scan_stmt : SCAN LPAREN var RPAREN'''
+        p[0] = Scan(child=p[3])
 
     #### LOOP RULES
 

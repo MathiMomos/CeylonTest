@@ -282,6 +282,27 @@ class Interpreter(NodeVisitor):
         value, type_ = self.visit(node.child)
         print(value)
 
+    def visit_Scan(self, node):
+        var_name = node.child.var_name
+        current_ar = self.call_stack.peek()
+        var_member = current_ar.get(var_name)
+
+        if var_member is None:
+            var_member = Member(
+                name=var_name,
+                value=None,
+                member_type=String_type,
+            )
+            var_member.var_type = "Var"
+            current_ar.set(var_name, var_member)
+
+        if var_member.var_type == "Final":
+            raise Exception(f"Final {var_name} cannot be reassigned.")
+
+        value = input()
+        var_member.value = value
+        var_member.member_type = String_type
+
 # VARIABLES AND CONSTANTS
 
     def visit_Var(self, node):

@@ -272,6 +272,21 @@ class CeylonSemantic(NodeVisitor):
     def visit_Print(self, node):
         self.visit(node.child)
 
+    def visit_Scan(self, node):
+        var_name = node.child.var_name
+
+        # Verifies if the symbol is currently saved
+        var_symbol = self.current_scope.lookup(var_name, current_scope_only=True)
+
+
+        if var_symbol is not None:
+            return
+
+        var_symbol = VarSymbol(var_name=var_name)
+        self.current_scope.define(var_symbol)
+
+        self.visit(node.child)
+
     def visit_VarAssign(self, node):
         var_name = node.left.var_name
         var_symbol = self.current_scope.lookup(var_name)  # Finds at the scope and in the enclosing scope
