@@ -226,8 +226,7 @@ class Interpreter(NodeVisitor):
             enclosing_ar=self.call_stack.peek()
         )
 
-        # Detects a runtime error, the number of arguments must to be the same of the number of formal parameters
-
+        # Detects a runtime error, the number of arguments must be the same of the number of formal parameters
         if len(arguments) != len(func_symbol.params):
             raise Exception("the number of arguments must to be the same of the number of formal parameters in the function call %s" % func_symbol.name)
 
@@ -287,11 +286,20 @@ class Interpreter(NodeVisitor):
         current_ar = self.call_stack.peek()
         var_member = current_ar.get(var_name)
 
+        scan_type = Null_type
+
+        type_ = node.type.value
+
+        if type_ == TokenType.SCANNUM.value:
+            scan_type = Number_type
+        elif type_ == TokenType.SCANSTR.value:
+            scan_type = String_type
+
         if var_member is None:
             var_member = Member(
                 name=var_name,
                 value=None,
-                member_type=String_type,
+                member_type=scan_type,
             )
             var_member.var_type = "Var"
             current_ar.set(var_name, var_member)
@@ -300,8 +308,15 @@ class Interpreter(NodeVisitor):
             raise Exception(f"Final {var_name} cannot be reassigned.")
 
         value = input()
-        var_member.value = value
-        var_member.member_type = String_type
+
+        if scan_type == Number_type:
+            var_member.value = int(value)
+            var_member.member_type = Number_type
+        elif scan_type == String_type:
+            var_member.value = value
+            var_member.member_type = String_type
+
+
 
 # VARIABLES AND CONSTANTS
 
@@ -402,19 +417,19 @@ class Interpreter(NodeVisitor):
 
         value, _ = self.visit(node.right)
 
-        if op == TokenType.PLUS_ASSIGN:
+        if op == TokenType.PLUS_ASSIGN.value:
             var_member.value += value
-        elif op == TokenType.MINUS_ASSIGN:
+        elif op == TokenType.MINUS_ASSIGN.value:
             var_member.value -= value
-        elif op == TokenType.TIMES_ASSIGN:
+        elif op == TokenType.TIMES_ASSIGN.value:
             var_member.value *= value
-        elif op == TokenType.DIVIDE_ASSIGN:
+        elif op == TokenType.DIVIDE_ASSIGN.value:
             var_member.value /= value
-        elif op == TokenType.POWER_ASSIGN:
+        elif op == TokenType.POWER_ASSIGN.value:
             var_member.value **= value
-        elif op == TokenType.MODULO_ASSIGN:
+        elif op == TokenType.MODULO_ASSIGN.value:
             var_member.value %= value
-        elif op == TokenType.INT_DIVIDE_ASSIGN:
+        elif op == TokenType.INT_DIVIDE_ASSIGN.value:
             var_member.value //= value
 
     def visit_ConcatAssign(self, node):
