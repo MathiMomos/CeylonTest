@@ -63,6 +63,7 @@ class Parser:
                      | var_auto SEMI
                      | expr SEMI
                      | func_stmt
+                     | switch_stmt
                      | if_stmt
                      | while_stmt
                      | for_stmt
@@ -99,6 +100,7 @@ class Parser:
                             | var_auto SEMI
                             | expr SEMI
                             | func_stmt
+                            | scoped_switch_stmt
                             | scoped_if_stmt
                             | scoped_while_stmt
                             | scoped_for_stmt
@@ -172,6 +174,31 @@ class Parser:
 
     #### CONDITIONAL RULES
 
+    # SWITCH RULES
+
+    def p_switch_stmt(self, p):
+        '''switch_stmt : SWITCH LPAREN var RPAREN LBRACE case RBRACE'''
+        p[0] = Switch(left=p[3], right=p[6])
+
+    def p_case(self, p):
+        '''case : CASE expr LBRACE block RBRACE case
+                | default_case
+                | empty'''
+        len_rule = len(p)
+
+        if len_rule == 7:
+            expr = p[2]
+            block = p[4]
+            case = p[6]
+            p[0] = Case(var=NoOp(), expr=expr, comp=NoOp(), block=block, case=case)
+        elif len_rule == 2:
+            p[0] = p[1]
+
+    def p_default_case(self, p):
+        '''default_case : DEFAULT LBRACE block RBRACE'''
+        block = p[3]
+        p[0] = Case(var=NoOp(), expr=NoOp(), comp=NoOp(), block=block, case=NoOp())
+
     # IF RULES
 
     def p_if_stmt(self, p):
@@ -203,6 +230,29 @@ class Parser:
         p[0] = If(condition=NoOp(), left=left, right=NoOp())
 
     # scoped structures
+
+    def p_scoped_switch_stmt(self, p):
+        '''scoped_switch_stmt : SWITCH LPAREN var RPAREN LBRACE scoped_case RBRACE'''
+        p[0] = Switch(left=p[3], right=p[6])
+
+    def p_scoped_case(self, p):
+        '''scoped_case : CASE expr LBRACE scoped_block RBRACE scoped_case
+                | scoped_default_case
+                | empty'''
+        len_rule = len(p)
+
+        if len_rule == 7:
+            expr = p[2]
+            block = p[4]
+            case = p[6]
+            p[0] = Case(var=NoOp(), expr=expr, block=block, case=case)
+        elif len_rule == 2:
+            p[0] = p[1]
+
+    def p_scoped_default_case(self, p):
+        '''scoped_default_case : DEFAULT LBRACE scoped_block RBRACE'''
+        block = p[3]
+        p[0] = Case(var=NoOp(), expr=NoOp(), block=block, case=NoOp())
 
     def p_scoped_if_stmt(self, p):
         '''scoped_if_stmt : IF LPAREN boolean_expr RPAREN LBRACE scoped_block RBRACE scoped_elif_stmt'''

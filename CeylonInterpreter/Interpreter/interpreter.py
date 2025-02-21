@@ -28,10 +28,40 @@ class Interpreter(NodeVisitor):
 
         self.call_stack.pop() # end with the program
 
-# STRUCTURES
-
     def visit_FunctionStmt(self, node):
         pass
+
+# STRUCTURES
+
+    def visit_Switch(self, node):
+        result_ = self.visit(node.right)
+        return result_
+
+    def visit_Case(self, node):
+        check_condition, _ = self.visit(node.comp)
+
+        if not check_condition:
+            result_ = self.visit(node.case)
+            return result_
+
+        case_ar = AR(
+            name="CASE",
+            ar_type=ART.CASE,
+            nesting_level=self.call_stack.peek().nesting_level + 1,
+            enclosing_ar=self.call_stack.peek()
+        )
+
+        # Adds the AR to the call_stack
+        self.call_stack.push(case_ar)
+
+        result_ = self.visit(node.block)
+
+        if result_:
+            print(self.call_stack.pop())
+            return result_
+
+        print(self.call_stack.pop())
+
 
     def visit_If(self, node):
 

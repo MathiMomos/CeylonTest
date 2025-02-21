@@ -15,3 +15,16 @@ class For:
         self.condition = condition
         self.auto = auto
         self.block_node = block_node
+
+class Switch:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+class Case:
+    def __init__(self, var, expr, comp, block, case):
+        self.var = var
+        self.expr = expr
+        self.comp = comp
+        self.block = block
+        self.case = case

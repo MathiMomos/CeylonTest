@@ -6,6 +6,7 @@ class ART(Enum): # ARType
     IF = "IF"
     WHILE = "WHILE"
     FOR = "FOR"
+    CASE = "CASE"
 
 class AR:
     def __init__(self, name, ar_type, nesting_level, enclosing_ar = None):

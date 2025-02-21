@@ -5,11 +5,16 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
 '''
-a = -1;
-if (a != 2) {
-    print("hola");
-}
+x = 5;
 
+switch (x) {
+    case 5 {
+        print("x es 5");
+    }
+    case 10 {
+        print("x es 10");
+    }
+}
 '''
 
 parser = Parser()
@@ -21,5 +26,6 @@ semantic.visit(ast)
 
 interpreter = Interpreter()
 interpreter.visit(ast)
+
 #printer = ASTPrinter()
 #printer.print_node(ast)

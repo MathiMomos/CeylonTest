@@ -1,6 +1,10 @@
+from AST.Expr import BinComp
 from CeylonInterpreter.NodeVisitor.NodeVisitor import NodeVisitor
 from CeylonInterpreter.Symbols.ScopedSymbolTable import ScopedSymbolTable
 from CeylonInterpreter.Symbols.Symbol import FunctionSymbol, VarSymbol, FinalSymbol
+from CeylonInterpreter.Tokens.TokenType import TokenType, Token
+from AST.Flow import Case
+from AST.Special import NoOp
 
 class CeylonSemantic(NodeVisitor):
     def __init__(self):
@@ -89,6 +93,44 @@ class CeylonSemantic(NodeVisitor):
         node.func_symbol = func_symbol
 
         self.visit(node.child)
+
+    def visit_Switch(self, node):
+        self.visit(node.left)
+        node.right.var = node.left
+        self.visit(node.right)
+
+    def visit_Case(self, node):
+        case_scope = ScopedSymbolTable(
+            scope_name="Case",
+            scope_level=self.current_scope.scope_level+1,
+            enclosing_scope=self.current_scope
+        )
+
+        print("***************************")
+        print("ENTER SCOPE: CASE")
+
+        self.current_scope = case_scope
+
+        if isinstance(node.expr, NoOp):
+            node.expr = node.var
+
+        op = Token(TokenType.EQ.name, TokenType.EQ.value)
+        comp = BinComp(left=node.var, op=op, right=node.expr)
+
+        node.comp = comp
+
+        self.visit(node.block)
+
+        if isinstance(node.case, Case):
+            node.case.var = node.var
+
+        print(self.current_scope)
+        print("EXITING SCOPE: CASE")
+        print("***************************")
+
+        self.current_scope = self.current_scope.enclosing_scope
+
+        self.visit(node.case)
 
     def visit_If(self, node):
         if_scope = ScopedSymbolTable(
