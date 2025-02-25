@@ -4,16 +4,19 @@ from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
 text = \
     '''
-        print("Hola, como te llamas?");
-        scan(saludo);
-        print("Hola " ... saludo ... ", cual es tu edad?");
+        fn suma (a, b) {
+            var = 1;
+            print(a);
+            print(b);
+            switch (var) {
+                case 1 {
+                    c = a + b;
+                    print(c);
+                }
+            }
+        }
         
-        scan(edad);
-        print("Tienes " ... edad ... " años");
-        
-        edad = tonum(edad) + 1;
-        # hola
-        print("El proximo año tendras " ... tostr(edad) ... " años");
+        suma(1, 2);
     '''
 
 # el peak de la programacion

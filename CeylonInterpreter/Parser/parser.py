@@ -247,14 +247,14 @@ class Parser:
             expr = p[2]
             block = p[4]
             case = p[6]
-            p[0] = Case(var=NoOp(), expr=expr, block=block, case=case)
+            p[0] = Case(var=NoOp(), expr=expr, comp=None, block=block, case=case)
         elif len_rule == 2:
             p[0] = p[1]
 
     def p_scoped_default_case(self, p):
         '''scoped_default_case : DEFAULT LBRACE scoped_block RBRACE'''
         block = p[3]
-        p[0] = Case(var=NoOp(), expr=NoOp(), block=block, case=NoOp())
+        p[0] = Case(var=NoOp(), expr=NoOp(), comp=None, block=block, case=NoOp())
 
     def p_scoped_if_stmt(self, p):
         '''scoped_if_stmt : IF LPAREN boolean_expr RPAREN LBRACE scoped_block RBRACE scoped_elif_stmt'''
