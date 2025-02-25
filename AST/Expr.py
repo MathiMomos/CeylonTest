@@ -61,3 +61,11 @@ class Null(ExprNode):
     def __init__(self, value):
         self.value = value
         self.type = Null_type
+
+class ToStr (ExprNode):
+    def __init__(self, child):
+        self.child = child
+
+class ToNum (ExprNode):
+    def __init__(self, child):
+        self.child = child

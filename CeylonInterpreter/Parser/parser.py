@@ -300,14 +300,25 @@ class Parser:
 
     #### SPECIAL RULES
 
+    # I/O RULES
+
     def p_print_stmt(self, p):
         '''print_stmt : PRINT LPAREN expr RPAREN'''
         p[0] = Print(child=p[3])
 
     def p_scan_stmt(self, p):
-        '''scan_stmt : SCANSTR LPAREN var RPAREN
-                     | SCANNUM LPAREN var RPAREN'''
-        p[0] = Scan(type=p[1] ,child=p[3])
+        '''scan_stmt : SCAN LPAREN var RPAREN'''
+        p[0] = Scan(child=p[3])
+
+    #CAST RULES
+
+    def p_tostr_expr(self, p):
+        '''tostr_expr : TOSTR LPAREN expr RPAREN'''
+        p[0] = ToStr(child=p[3])
+
+    def p_tonum_expr(self, p):
+        '''to_num_expr : TONUM LPAREN expr RPAREN'''
+        p[0] = ToNum(child=p[3])
 
     #### LOOP RULES
 
@@ -386,7 +397,9 @@ class Parser:
                 | null_expr
                 | ternary_expr
                 | var
-                | func_call'''
+                | func_call
+                | tostr_expr
+                | to_num_expr'''
         p[0] = p[1]
 
     #### ARITHMETIC RULES|
@@ -423,7 +436,8 @@ class Parser:
                     | num_expr INT_DIVIDE num_expr
                     | num_expr POWER num_expr
                     | num_expr MODULO num_expr
-                    | num_factor'''
+                    | num_factor
+                    | to_num_expr'''
         len_rule = len(p)
 
         if len_rule == 4:
@@ -439,7 +453,8 @@ class Parser:
     def p_string_expr(self, p):
         '''string_expr : string_expr CONCAT string_expr
                        | STRING
-                       | var'''
+                       | var
+                       | tostr_expr'''
         len_rule = len(p)
 
         if len_rule == 4:

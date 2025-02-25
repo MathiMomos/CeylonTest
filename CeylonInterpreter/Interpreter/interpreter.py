@@ -275,7 +275,7 @@ class Interpreter(NodeVisitor):
         return value, type_
         # later
 
-# PRINT
+# SPECIAL (I/O AND CASTING)
 
     def visit_Print(self, node):
         value, type_ = self.visit(node.child)
@@ -286,20 +286,11 @@ class Interpreter(NodeVisitor):
         current_ar = self.call_stack.peek()
         var_member = current_ar.get(var_name)
 
-        scan_type = Null_type
-
-        type_ = node.type.value
-
-        if type_ == TokenType.SCANNUM.value:
-            scan_type = Number_type
-        elif type_ == TokenType.SCANSTR.value:
-            scan_type = String_type
-
         if var_member is None:
             var_member = Member(
                 name=var_name,
                 value=None,
-                member_type=scan_type,
+                member_type=String_type,
             )
             var_member.var_type = "Var"
             current_ar.set(var_name, var_member)
@@ -307,14 +298,35 @@ class Interpreter(NodeVisitor):
         if var_member.var_type == "Final":
             raise Exception(f"Final {var_name} cannot be reassigned.")
 
-        value = input()
+        var_member.value = input()
+        var_member.member_type = String_type
 
-        if scan_type == Number_type:
-            var_member.value = int(value)
-            var_member.member_type = Number_type
-        elif scan_type == String_type:
-            var_member.value = value
-            var_member.member_type = String_type
+        return var_member.value, var_member.member_type
+
+    def visit_ToStr(self, node):
+        value, type_ = self.visit(node.child)
+
+        if type_ != Number_type:
+            raise Exception(f"Cannot convert type {type_.name} to a string.")
+
+        value = str(value)
+        type_ = String_type
+
+        return value, type_
+
+    def visit_ToNum(self, node):
+        value, type_ = self.visit(node.child)
+
+        if type_ != String_type:
+            raise Exception(f"Cannot convert type {type_.name} to a number.")
+
+        try:
+            value = int(value)
+            type_ = Number_type
+        except ValueError:
+            raise Exception(f"Cannot convert value to a number.")
+
+        return value, type_
 
 
 
@@ -463,10 +475,10 @@ class Interpreter(NodeVisitor):
         op = node.op.value
 
         if left_type.name != type_name:
-            raise Exception("Type %s is not compatible with binary arithmetic operation." % type_name)
+            raise Exception("Type %s is not compatible with binary arithmetic operation." % left_type.name)
 
         if right_type.name != type_name:
-            raise Exception("Type %s is not compatible with binary arithmetic operation." % type_name)
+            raise Exception("Type %s is not compatible with binary arithmetic operation." % right_type.name)
 
         value = 0
 
@@ -499,10 +511,10 @@ class Interpreter(NodeVisitor):
         type_name = type_.name
 
         if left_type.name != type_name:
-            raise Exception("Type %s is not compatible with string concatenation." % type_name)
+            raise Exception("Type %s is not compatible with string concatenation." % left_type.name)
 
         if right_type.name != type_name:
-            raise Exception("Type %s is not compatible with string concatenation." % type_name)
+            raise Exception("Type %s is not compatible with string concatenation." % right_type.name)
 
         value = left_value + right_value
 
