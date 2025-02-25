@@ -18,10 +18,10 @@ class Parser:
         self.Lexer = lexer
         self.tokens = lexer.tokens
         self.precedence = (
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE', "INT_DIVIDE"),
-        ('right', 'POWER'),
-    )
+            ('left', 'PLUS', 'MINUS'),
+            ('left', 'TIMES', 'DIVIDE', "INT_DIVIDE"),
+            ('right', 'POWER')
+        )
 
     ####
     #### PROGRAM RULES

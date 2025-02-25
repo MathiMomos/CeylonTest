@@ -2,7 +2,7 @@ from CeylonInterpreter.Parser.parser import Parser
 from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
-with open('example.cey', 'r') as file:
+with open('Scripts/combinaciones.cey', 'r') as file:
     text = file.read()
 
 # el peak de la programacion

@@ -1,0 +1,11 @@
+fn combinaciones(n, k) {
+    if (k == 0 || k == n) {
+        return 1;
+    }
+    return combinaciones(n - 1, k - 1) + combinaciones(n - 1, k);
+}
+
+n = 3;
+k = 2;
+r = combinaciones(n, k);
+print(r);

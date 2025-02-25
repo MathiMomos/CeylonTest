@@ -12,9 +12,6 @@ class CeylonSemantic(NodeVisitor):
 
     def visit_Program(self, node):
 
-        print("***************************")
-        print("ENTER SCOPE: PROGRAM")
-
         self.current_scope = ScopedSymbolTable(
             scope_name=node.program_name,
             scope_level=1,
@@ -23,10 +20,6 @@ class CeylonSemantic(NodeVisitor):
 
         #self.current_scope.init_builtins()
         self.visit(node.block_node)
-
-        print(self.current_scope)
-        print("EXITING SCOPE: PROGRAM")
-        print("***************************")
 
         self.current_scope = None
 
@@ -53,13 +46,8 @@ class CeylonSemantic(NodeVisitor):
         # Adding the func_symbol to the current_scope
         self.current_scope.define(func_symbol)
 
-        print("***************************")
-        print("ENTER FUNCTION SCOPE:", func_name)
-
         # Entering to the function scope
         self.current_scope = function_scope
-
-        print(self.current_scope)
 
         # Registering the formal params
         self.visit(node.left)
@@ -72,10 +60,6 @@ class CeylonSemantic(NodeVisitor):
 
         # Visiting the statements of the function
         self.visit(node.right) # visits the scoped block
-
-        print(self.current_scope)
-        print("EXITING FUNCTION SCOPE:", func_name)
-        print("***************************")
 
         # Exiting the function scope
         self.current_scope = self.current_scope.enclosing_scope
@@ -106,9 +90,6 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
-        print("***************************")
-        print("ENTER SCOPE: CASE")
-
         self.current_scope = case_scope
 
         if isinstance(node.expr, NoOp):
@@ -124,10 +105,6 @@ class CeylonSemantic(NodeVisitor):
         if isinstance(node.case, Case):
             node.case.var = node.var
 
-        print(self.current_scope)
-        print("EXITING SCOPE: CASE")
-        print("***************************")
-
         self.current_scope = self.current_scope.enclosing_scope
 
         self.visit(node.case)
@@ -139,17 +116,10 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
-        print("***************************")
-        print("ENTER SCOPE: IF")
-
         self.current_scope = if_scope
 
         self.visit(node.condition) # expr
         self.visit(node.left) # Block of the conditional
-
-        print(self.current_scope)
-        print("EXITING SCOPE: IF")
-        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 
@@ -162,17 +132,10 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
-        print("***************************")
-        print("ENTER SCOPE: WHILE")
-
         self.current_scope = while_scope
 
         self.visit(node.condition)
         self.visit(node.child)
-
-        print(self.current_scope)
-        print("EXITING SCOPE: WHILE")
-        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 
@@ -183,19 +146,12 @@ class CeylonSemantic(NodeVisitor):
             enclosing_scope=self.current_scope
         )
 
-        print("***************************")
-        print("ENTER SCOPE: FOR")
-
         self.current_scope = for_scope
 
         self.visit(node.init_var)
         self.visit(node.condition)
         self.visit(node.auto)
         self.visit(node.block_node)
-
-        print(self.current_scope)
-        print("EXITING SCOPE: FOR")
-        print("***************************")
 
         self.current_scope = self.current_scope.enclosing_scope
 

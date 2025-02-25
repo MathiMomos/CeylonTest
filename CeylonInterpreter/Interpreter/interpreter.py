@@ -24,8 +24,6 @@ class Interpreter(NodeVisitor):
         self.call_stack.push(program_ar) # adds the execution of the program to the CALL_STACK
         self.visit(node.block_node) # visits the program's body
 
-        print(self.call_stack.peek())
-
         self.call_stack.pop() # end with the program
 
     def visit_FunctionStmt(self, node):
@@ -57,10 +55,10 @@ class Interpreter(NodeVisitor):
         result_ = self.visit(node.block)
 
         if result_:
-            print(self.call_stack.pop())
+            self.call_stack.pop()
             return result_
 
-        print(self.call_stack.pop())
+        self.call_stack.pop()
 
 
     def visit_If(self, node):
@@ -98,10 +96,10 @@ class Interpreter(NodeVisitor):
         result_ = self.visit(node.left) # If returning something, must be a tuple with the data result of the Return node evaluated
 
         if result_:
-            print(self.call_stack.pop())
+            self.call_stack.pop()
             return result_
 
-        print(self.call_stack.pop())
+        self.call_stack.pop()
 
 
     def visit_While(self, node):
@@ -129,17 +127,17 @@ class Interpreter(NodeVisitor):
 
         # Checks if the result is not none
         if result_:
-            print(self.call_stack.pop()) # Pops the While AR
+            self.call_stack.pop() # Pops the While AR
             return result_ # returns the tuple of the return data
 
         result_ = self.visit(node) # visits the While node again, the While is recursive this is the reason for the double evaluation of the result_
 
         # Checks if the result is not none
         if result_:
-            print(self.call_stack.pop())  # Pops the While AR
+            self.call_stack.pop()  # Pops the While AR
             return result_ # returns the tuple of the return data
 
-        print(self.call_stack.pop()) # Pops and implicitly returns None
+        self.call_stack.pop() # Pops and implicitly returns None
 
     def visit_For(self, node):
         # Creates the For AR because it needs to init the var inside
@@ -164,14 +162,14 @@ class Interpreter(NodeVisitor):
 
             # Is the condition is false
             if not condition_check:
-                print(self.call_stack.pop()) # Stops the For loop
+                self.call_stack.pop() # Stops the For loop
                 return # Ends the function and return None
 
             result_ = self.visit(node.block_node) # In the scoped_block node can exist a Return node
 
             # If the result is not None
             if result_:
-                print(self.call_stack.pop()) # Stops the For loop
+                self.call_stack.pop() # Stops the For loop
                 return result_ # Return the data of the internal Return
 
             self.visit(node.auto) # Do the auto operation
@@ -252,7 +250,7 @@ class Interpreter(NodeVisitor):
         else:
             returning_value = ("null", Null_type) # the function doesn't return anything, this is the default value
 
-        print(self.call_stack.pop())
+        self.call_stack.pop()
 
         return returning_value # returning the tuple, this is it because the function call is an expression too
 
