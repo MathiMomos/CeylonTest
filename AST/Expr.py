@@ -52,7 +52,7 @@ class BinComp(ExprNode):
         self.right = right
 
 class Ternary(ExprNode):
-    def __init__(self,left, condition, right):
+    def __init__(self, left, condition, right):
         self.left = left # true expr
         self.condition = condition
         self.right = right # false expr

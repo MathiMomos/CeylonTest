@@ -12,7 +12,7 @@ text = \
         print("Tienes " ... edad ... " años");
         
         edad = tonum(edad) + 1;
-        
+        # hola
         print("El proximo año tendras " ... tostr(edad) ... " años");
     '''
 

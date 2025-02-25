@@ -3,6 +3,7 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     CLASS
+    COMMENT_SINGLE
     DOT
     FALSE
     FSTRING
@@ -157,6 +158,7 @@ BOOLEAN              : 123
 CASE                 : 49 59
 CLASS                : 
 COMMA                : 42 46
+COMMENT_SINGLE       : 
 CONCAT               : 114
 CONCAT_ASSIGN        : 88
 DECREMENT            : 87
