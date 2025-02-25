@@ -2,19 +2,8 @@ from CeylonInterpreter.Parser.parser import Parser
 from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
-text = \
-    '''
-        print("Hola, como te llamas?");
-        scan(saludo);
-        print("Hola " ... saludo ... ", cual es tu edad?");
-        
-        scan(edad);
-        print("Tienes " ... edad ... " años");
-        
-        edad = tonum(edad) + 1;
-        # Hola
-        print("El proximo año tendras " ... tostr(edad) ... " años");
-    '''
+with open('example.cey', 'r') as file:
+    text = file.read()
 
 # el peak de la programacion
 
