@@ -257,6 +257,11 @@ class CeylonLexer:
         print(f"Carácter ilegal '{t.value[0]}' en línea {t.lineno}")
         t.lexer.skip(1)
 
+    # Comentarios
+    def t_COMMENT_SINGLE(self, t):
+        r'\#[^\n]*'
+        pass
+
     # Construir el lexer
     def build(self):
         self.lexer = lex.lex(module=self)

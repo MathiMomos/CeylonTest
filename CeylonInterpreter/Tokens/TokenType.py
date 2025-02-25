@@ -87,6 +87,9 @@ class TokenType (Enum):
     MODULO = "%"
     INT_DIVIDE = "//"
 
+    # COMMENT
+    COMMENT_SINGLE = "#"
+
     @staticmethod
     def generate_tokens():
         TokenTypeList = list(TokenType)
