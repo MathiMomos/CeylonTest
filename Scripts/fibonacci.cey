@@ -1,13 +1,21 @@
-fn fibonacci(n) {
-    if (n == 0) {
-        return 0;
-    }
-    if (n == 1) {
-        return 1;
-    }
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
+print("Ingresa cuantos numeros quieres de la serie de Fibonacci:");
 
-x = 10;
-r = fibonacci(x);
-print(r);
+scan(n);
+n = tonum(n);
+
+if (n <= 0) { print("Ingreso un numero mayor que cero"); }
+elif (n == 1) { print(0); }
+else {|
+    a = 0;
+    b = 1;
+
+    print(a);
+    print(b);
+
+    for (i = 3; i <= n; i++) {
+        c = a + b;
+        print(c);
+        a = b;
+        b = c;
+    }
+}

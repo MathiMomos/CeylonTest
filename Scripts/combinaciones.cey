@@ -5,7 +5,5 @@ fn combinaciones(n, k) {
     return combinaciones(n - 1, k - 1) + combinaciones(n - 1, k);
 }
 
-n = 3;
-k = 2;
-r = combinaciones(n, k);
+r = combinaciones(100, 2);
 print(r);

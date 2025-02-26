@@ -2,7 +2,7 @@ from CeylonInterpreter.Parser.parser import Parser
 from CeylonInterpreter.Semantic.semantic import CeylonSemantic
 from CeylonInterpreter.Interpreter.interpreter import Interpreter
 
-file_name = 'example.cey'
+file_name = 'combinaciones.cey'
 
 with open('Scripts/' + file_name, 'r') as file:
     text = file.read()

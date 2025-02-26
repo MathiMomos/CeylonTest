@@ -1,40 +1,26 @@
 fn prueba(x,y,z){
+
     switch(x) {
         case 1 {
             print("Caso 1");
             switch(y) {
-                case 10 {
-                    print("Caso 10 dentro de switch(y)");
-                }
-                case 20 {
-                    print("Caso 20 dentro de switch(y)");
-                }
-                default {
-                    print("Default dentro de switch(y)");
-                }
+                case 10 { print("Caso 10 dentro de switch(y)"); }
+                case 20 { print("Caso 20 dentro de switch(y)"); }
+                default { print("Default dentro de switch(y)"); }
             }
         }
 
         case 2 {
             print("Caso 2");
             switch(z) {
-                case 100 {
-                    print("Caso 100 dentro de switch(z)");
-                }
-                default {
-                    print("Default dentro de switch(z)");
-                }
+                case 100 { print("Caso 100 dentro de switch(z)"); }
+                default { print("Default dentro de switch(z)"); }
             }
         }
-        default {
-            print("Caso por defecto del switch principal");
-        }
 
+        default { print("Caso por defecto del switch principal"); }
     }
+
 }
 
- x=1;
- y=10;
- z=100;
-
- prueba(1,10,100);
+prueba(2,50,400);
