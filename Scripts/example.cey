@@ -1,18 +1,10 @@
+fn saludo(a) {
+    scan(b);
+    print("hola " ... b ... "como estas en numero ");
+    a = b + 4;
+    print(a);
+}
 
-
-print("Hola cual es tu nombre");
-
-scan(nombre);
-
-print("Hola " ... nombre ... " ,cuantos años tienes?");
-
-scan(edad);
-edad = tonum(edad);
-
-nueva_edad = edad + 1;
-
-print("El siguiente año tendras " ... nueva_edad ... " años!");
-nueva_edad = nueva_edad + 1;
-
-print(nueva_edad);
-
+scan(var);
+a = tonum(var);
+saludo(a);

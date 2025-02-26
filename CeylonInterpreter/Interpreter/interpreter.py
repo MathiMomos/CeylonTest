@@ -448,7 +448,7 @@ class Interpreter(NodeVisitor):
 
     def visit_ConcatAssign(self, node):
         _, left_type = self.visit(node.left)
-        right_value, _ = self.visit(node.right)
+        right_value, right_type = self.visit(node.right)
 
         var_name = node.left.var_name
         current_ar = self.call_stack.peek()
@@ -462,6 +462,9 @@ class Interpreter(NodeVisitor):
 
         if var_member.var_type == "Final":
             raise Exception(f"Final {var_name} cannot be reassigned.")
+
+        if right_type.name == Number_type.name:
+            right_value = str(right_value)
 
         var_member.value += right_value
 
