@@ -1,0 +1,11 @@
+
+scan(var);
+var = tonum(var);
+numero = var + 20;
+print(numero);
+
+
+
+
+
+

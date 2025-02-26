@@ -319,8 +319,12 @@ class Interpreter(NodeVisitor):
             raise Exception(f"Cannot convert type {type_.name} to a number.")
 
         try:
-            value = int(value)
-            type_ = Number_type
+            try:
+                value = int(value)
+                type_ = Number_type
+            except:
+                value = float(value)
+                type_ = Number_type
         except ValueError:
             raise Exception(f"Cannot convert value to a number.")
 
