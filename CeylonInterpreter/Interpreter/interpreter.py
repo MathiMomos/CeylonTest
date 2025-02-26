@@ -299,8 +299,6 @@ class Interpreter(NodeVisitor):
         var_member.value = input()
         var_member.member_type = String_type
 
-        return var_member.value, var_member.member_type
-
     def visit_ToStr(self, node):
         value, type_ = self.visit(node.child)
 
