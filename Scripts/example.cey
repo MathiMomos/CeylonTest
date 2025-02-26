@@ -1,11 +1,18 @@
 
-scan(var);
-var = tonum(var);
-numero = var + 20;
-print(numero);
 
+print("Hola cual es tu nombre");
 
+scan(nombre);
 
+print("Hola " ... nombre ... " ,cuantos años tienes?");
 
+scan(edad);
+edad = tonum(edad);
 
+nueva_edad = edad + 1;
+
+print("El siguiente año tendras " ... nueva_edad ... " años!");
+nueva_edad = nueva_edad + 1;
+
+print(nueva_edad);
 

@@ -509,16 +509,21 @@ class Interpreter(NodeVisitor):
         left_value, left_type = self.visit(node.left)
         right_value, right_type = self.visit(node.right)
 
-        type_ = String_type
-        type_name = type_.name
 
-        if left_type.name != type_name:
+        if left_type.name == String_type.name or left_type.name == Number_type.name:
+            pass
+        else:
             raise Exception("Type %s is not compatible with string concatenation." % left_type.name)
 
-        if right_type.name != type_name:
+        if right_type.name == String_type.name or right_type.name == Number_type.name:
+            pass
+        else:
             raise Exception("Type %s is not compatible with string concatenation." % right_type.name)
 
-        value = left_value + right_value
+        try:
+            value = left_value + right_value
+        except:
+            value = str(left_value) + str(r)
 
         return value, type_
 

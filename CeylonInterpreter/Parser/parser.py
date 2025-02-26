@@ -454,7 +454,8 @@ class Parser:
         '''string_expr : string_expr CONCAT string_expr
                        | STRING
                        | var
-                       | tostr_expr'''
+                       | tostr_expr
+                       | num_expr'''
         len_rule = len(p)
 
         if len_rule == 4:
