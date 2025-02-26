@@ -509,23 +509,18 @@ class Interpreter(NodeVisitor):
         left_value, left_type = self.visit(node.left)
         right_value, right_type = self.visit(node.right)
 
-
-        if left_type.name == String_type.name or left_type.name == Number_type.name:
-            pass
-        else:
-            raise Exception("Type %s is not compatible with string concatenation." % left_type.name)
-
-        if right_type.name == String_type.name or right_type.name == Number_type.name:
-            pass
-        else:
+        if not (right_type.name == String_type.name or right_type.name == Number_type.name):
             raise Exception("Type %s is not compatible with string concatenation." % right_type.name)
+
+        if not (left_type.name == String_type.name or left_type.name == Number_type.name):
+            raise Exception("Type %s is not compatible with string concatenation." % left_type.name)
 
         try:
             value = left_value + right_value
         except:
-            value = str(left_value) + str(r)
+            value = str(left_value) + str(right_value)
 
-        return value, type_
+        return value, String_type
 
     def visit_BinBooleanOp(self, node):
         left_value, left_type = self.visit(node.left)
