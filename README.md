@@ -1,5 +1,6 @@
-
-![Ceylon Logo](https://imgur.com/gVBppN3)
+<p align="center">
+  <img src="https://i.imgur.com/TeLFGoH.png" />
+</p>
 
 # 1. Qué es Ceylon
 Ceylon es un lenguaje de programación estructurado e interpretado de fácil aprendizaje y que brinda una sintaxis sencilla y familiar para cualquier programador. Ceylon ha sido creado con el propósito de que sus creadores aprendan y comprendan el quid del cómo se crean los lenguajes de programación que aprendemos y utilizamos en nuestra labor diaria. Este lenguaje, y su interprete, han sido creados tomando en cuenta las consideraciones críticas que se deben tomar en cuenta al momento de atreverse a crear un lenguaje de programación: su léxico, su sintaxis y su semántica.
