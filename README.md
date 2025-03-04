@@ -48,9 +48,187 @@ x = "Hola Mundo";
 x = true;
 ```
 
-- **Null**: Se utiliza para indicar la ausencia de algún valor válido.
+- **Null**: Se utiliza para indicar la ausencia de algún valor válido
 
 ```java
 x = null;
+```
+
+# 5. Casting
+Ceylon proporciona dos funciones principales para realizar casting (conversiones) entre strings y números:
+
+- **tonum()**: Esta función convierte strings a números. Si el string contiene un número válido, lo convierte; de lo contrario, genera un error.
+
+```python
+x = tonum("5.5");    // x = 5.5
+x = tonum("123");    // x = 123
+x = tonum("hola");   // Error: No se puede convertir
+```
+
+- **tostr()**: Esta función convierte números a strings. Es útil para mostrar valores numéricos como texto.
+
+```python
+x = tostr(5.5);      // x = "5.5"
+x = tostr(123);      // x = "123"
+```
+
+Estas funciones son fundamentales para manejar conversiones entre números y strings en Ceylon.
+
+# 6. Estructuras de control
+Ceylon, al ser un lenguaje estructurado, cuenta con un número considerable de estructuras de control.
+
+## Estructuras condicionales:
+
+- `if/elif/else`: Con el bloque condicional `if` se pueden evaluar sentencias booleanas para ejecutar condicionalmente bloques de código. Para evitar el anidamiento excesivo, hemos implementando también `elif` que se utiliza para establecer un condición sucesiva de no haberse cumplido la anterior. Y, por último, se utiliza `else` en caso de que ninguna condición se haya validado como verdadera:
+
+```python
+x = 10;
+if (x == 5) {
+	print("x es 5");
+} elif (x == 15) {
+	print("x es 15");
+} else {
+	print("x no es 15 ni 5");
+}
+```
+
+- `switch`: Similar al bloque `if/elif/else` pero de uso más compacto y práctico. `switch` evalúa igualdades entre la variable proporcionada y las expresiones `cases` establecidos para ejecutar un bloque de código de manera selectiva. `default` esta disponible y es el equivalente a `else` en el sentido de que ejecuta el bloque si ningún caso anterior se ha ejecutado.
+
+```jsx
+x = 10
+switch (x) {
+	case 5 {
+		print("x es 5");
+	}
+	case 10 {
+		print("x es 10");
+	}
+	default {
+		print("x no es 15 ni 5");
+	}
+}
+```
+
+## Estructuras de bucle
+
+- `while`: La estructura de bucle `while` ejecuta el mismo bloque de código especificado mientras una condición no sea verdadera
+
+```python
+x = 0;
+
+while (x < 10) {
+	print("hola mundo");
+	x++;
+}
+```
+
+- `for`: La estructura de bucle `for` ejecuta un bloque de código de forma repetitiva hasta que se cumpla una condición dada. Adicionalmente permite definir e inicializar una variable y también una operación de incremento o decremento sobre cualquier variable al finalizar una iteración
+
+```jsx
+for (x = 0; x < 10; x++) {
+	print("hola mundo");
+}
+```
+
+# 7. Funciones
+Además, Ceylon permite la reutilización de código mediante el uso de funciones.
+
+## Funciones:
+
+- `fn`**:** Las funciones se definen utilizando la palabra clave `fn`, permitiendo reutilizar bloques de código. Se pueden definir con o sin parámetros y pueden devolver valores utilizando `return`.
+
+ 
+
+Función simple sin parámetros
+
+```python
+fn saludar() {
+    print("¡Hola, mundo!");
+}
+
+saludar();
+```
+
+Función con parámetros y retorno de valor:
+
+```python
+fn sumar(a, b) {
+    return a + b;
+}
+
+sumar(14, 6);
+```
+
+# 8. Alcance
+Ceylon define el alcance de las variables y funciones a través de ámbitos (*scopes*), lo que determina dónde pueden ser accedidas dentro del código. Existen diferentes niveles de ámbito según dónde se declaren las variables o funciones.
+
+## Ámbito Global:
+
+- Una variable o función declarada fuera de cualquier bloque pertenece al ámbito global y puede ser utilizada en cualquier parte del código.
+
+```python
+mensaje = "Hola desde el ámbito global";
+
+fn saludar() {
+    print(mensaje);
+}
+```
+
+## Ámbito de Bloque:
+
+- Las variables declaradas dentro de un bloque solo existen dentro de ese bloque y no pueden ser accedidas desde fuera.
+
+```python
+fn ejemplo() {
+    interno = "Esta variable solo existe dentro de la función";
+    print(interno);
+}
+
+print(interno);
+```
+
+(Esto daría error)
+
+## Sombra de variables (*Shadowing*):
+
+- Si una variable global tiene el mismo nombre que un parámetro de una función, dentro de la función se tomará el valor del parámetro en lugar del valor global.
+
+```python
+mensaje = "Hola desde el ámbito global";
+
+fn mostrarMensaje(mensaje) {
+    print(mensaje);
+}
+
+mostrarMensaje("Hola desde la función");
+print(mensaje);
+```
+
+# 9. I/O
+Ceylon proporciona funcionalidades para manejar entrada y salida (I/O) que permiten a los programas interactuar con el usuario y archivos. Veamos las principales operaciones de I/O disponibles.
+
+## Salida Estándar:
+
+- `print()`: La función `print()` muestra texto en la consola. Se permite la concatenación.
+
+```python
+print("¡Hola mundo!");
+
+nombre = "Ana";
+edad = 25;
+print("Mi nombre es " ... nombre ... " y tengo " ... edad ... " años.");
+
+print("Línea 1");
+print("Línea 2");
+```
+
+## Entrada Estándar:
+
+- `scan()`: Ceylon permite leer una cadena de texto desde la consola
+
+```python
+print("Ingrese su nombre: ");
+scan(nombre);
+print("Hola " ... nombre);
 ```
   
